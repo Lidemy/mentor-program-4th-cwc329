@@ -1,6 +1,6 @@
 ## 交作業流程
 1. 開新branch
-   git branch <branch名稱>
+   git branch <branch>
 
 2. 在新branch上相對應的資料夾寫作業
    ex: 修改hw1.js ...etc
@@ -8,7 +8,7 @@
 3. 新branch上完成作業
 
 4. 把寫作業的branch push到github
-   git push origin <branch名稱>
+   git push origin <branch>
 
 5. 成功push branch之後，在github網頁點選pull request
    點選compare and pull request，
@@ -24,7 +24,7 @@
    git pull origin master，將遠端的master同步到本地的master
 
 9. 同步master之後，把本地寫作業的branch刪掉
-   git branch -d <branch名稱>
+   git branch -d <branch>
 
 
 PS: 人人都可以code review，可以從作業系統連過去看，並且在下方加評語
