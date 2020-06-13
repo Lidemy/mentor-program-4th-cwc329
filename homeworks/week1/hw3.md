@@ -17,28 +17,35 @@ h0W哥要我們幫忙用command line做兩件事；
 首先，資料夾在command line中的名字是directory，要創建資料夾就是 `make directory <directory>`，  
 不過因為這是常用的指令，每次都要這樣打實在太長，git-bash中把指令簡化成 `mkdir <directory>`。  
 所以第一步我們要在git-bash中輸入  
-`mkdir wifi`
+```
+mkdir wifi
+```
 
 輸入完成後可以輸入`ls`列出目前位置的所有檔案與資料夾，來確認是否有 wifi 資料夾。  
 接下來要先進入 wifi 資料夾，這邊我們要先切換資料夾 `change directory <diretory>`，  
 一樣因為這是常用指令，所以會縮寫，縮寫之後是`cd <directory>`。  
 所以接下來我們要輸入  
-`cd wifi`
+```
+cd wifi
+```
 
 進入wifi資料夾了，如果用`ls`來檢查應該會發現裡面沒有東西，那這時後就要來創造 afu.js 了。  
 這邊有個新指令`touch <file>`，它沒有簡寫，因為本來就簡短。  
 這個指令的動作是觸碰某個檔案，而如果沒有這個檔案呢?  
 這邊電腦突然變聰明了，他會幫你創建這個檔案，然後再去觸碰檔案。  
 所以接下來要輸入  
-`touch afu.js`
+```
+touch afu.js
+```
 
 這樣就創建完成了。
 
 做個總結
 打開git-bash後依序輸入以下指令
-1. `mkdir wifi`
-2. `cd wifi`
-3. `touch afu.js`  
-
+```
+mkdir wifi
+cd wifi
+touch afu.js
+```
 這樣就完成了。
 
