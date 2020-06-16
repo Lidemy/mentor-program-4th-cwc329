@@ -3,73 +3,63 @@
 function solve(arr){
   var w = 10
   var h = 10
-  var W = w+2
-  var H = h+2
-  let step = 0
+  let step = -1
   let quene = []
-  let visited = [];
-  let dots = [];
+  let start = arr[0][0]
+  let finish = false
   for (let i = 0; i < arr.length;i++){
-      arr[i] = '#'+arr[i]+'#'
+    arr[i] = '#'+arr[i]+'#'
   }
   arr.reverse().push('#'.repeat(w+2))
   arr.reverse().push('#'.repeat(w+2))
-  for (let x = 0; x < arr.length; x++){
-      for (let y = 0; y < arr[x].length; y++){
-        if (arr[x][y]==='.'){
-            dots.push(x*H+y)
-        }
-      }
+  for (let i = 0; i < arr.length; i ++){
+      arr[i]=arr[i].split('')
   }
-  let start = dots[0];
-  let end = dots[dots.length-1]
-  quene.push(start)
-  while (quene.includes(end)===false){
+  let end = arr[h][w];
+  quene.push([1,1])
+  while (finish === false){
     let temp = []
-    while (quene.length !==0){
+    while(quene.length !== 0){
         temp.push(quene.shift())
     }
     while (temp.length !== 0){
-      let s = temp[0]
-        if (dots.includes(s-W)  && !(visited.includes(s-W)) && !(quene.includes(s-W))){
-            quene.push(s-W);
+        let now = temp.shift()
+        let nowx = now[0]
+        let nowy = now[1]
+        if (nowx === w && nowy === h){
+            finish = true
+            break
         }
-        
-        if (dots.includes(s+W)  && !(visited.includes(s+W)) && !(quene.includes(s+W))){
-            quene.push(s+W);
+        arr[nowy][nowx] = '@'
+        if (arr[nowy+1][nowx] === '.' ){
+            quene.push([nowx,nowy+1])
         }
-        
-        if (dots.includes(s+1)  && !(visited.includes(s+1))&& !(quene.includes(s+1))){
-            quene.push(s+1);
+        if (arr[nowy-1][nowx] === '.' ){
+            quene.push([nowx,nowy-1])
         }
-        
-        if (dots.includes(s-1)  && !(visited.includes((s-1)))&& !(quene.includes(s-1))){
-            quene.push(s-1);
+        if (arr[nowy][nowx+1] === '.' ){
+            quene.push([nowx+1,nowy])
         }
-
-        
-        visited.push(temp.shift())
+        if (arr[nowy][nowx-1] === '.' ){
+            quene.push([nowx-1,nowy])
+        }
     }
-        step++
-        
-    
-    
+    step++
   }
 
   console.log(step)
-  
 } 
 
 solve([
-	'..########',
-	'#........#',
-	'###..#..##',
-	'#....#..##',
-	'#..###...#',
-	'#.#..#...#',
-	'#.#....#.#',
-	'#.####...#',
-	'#.....#..#',
-	'########..'
+    '..########',
+    '#........#',
+    '########.#',
+    '#........#',
+    '#.########',
+    '#........#',
+    '########.#',
+    '#........#',
+    '#.######.#',
+    '########..'
 ])
 
