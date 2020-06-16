@@ -5,7 +5,6 @@ function solve(arr){
   var h = 10
   let step = -1
   let quene = []
-  let start = arr[0][0]
   let finish = false
   for (let i = 0; i < arr.length;i++){
     arr[i] = '#'+arr[i]+'#'
@@ -15,7 +14,6 @@ function solve(arr){
   for (let i = 0; i < arr.length; i ++){
       arr[i]=arr[i].split('')
   }
-  let end = arr[h][w];
   quene.push([1,1])
   while (finish === false){
     let temp = []
