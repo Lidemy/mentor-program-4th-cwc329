@@ -1,8 +1,8 @@
 //start [0,0]
 
 function solve(arr){
-  var w = 10
-  var h = 10
+  let w = 10
+  let h = 10
   let step = -1
   let quene = []
   let finish = false
