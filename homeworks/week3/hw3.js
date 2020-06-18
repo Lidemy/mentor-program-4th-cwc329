@@ -17,16 +17,20 @@ function solve(input) {
     num.push(Number(input[i]));
   }
   for (let i = 0; i < num.length; i += 1) {
-    let sum = 0;
     const temp = num[i];
-    for (let j = 1; j <= temp; j += 1) {
+    let isP = true;
+    if (temp === 1) {
+      console.log('Composite');
+      isP = false;
+    }
+    for (let j = 2; j <= temp / 2; j += 1) {
       if (temp % j === 0) {
-        sum += 1;
+        console.log('Composite');
+        isP = false;
+        break;
       }
     }
-    if (temp === 1 || sum > 2) {
-      console.log('Composite');
-    } else {
+    if (isP === true) {
       console.log('Prime');
     }
   }
