@@ -13,18 +13,19 @@ function add(a, b) {
       } else {
         result.push('1');
       }
-    } else if ((A[0] === '0' && B[0] === '1') || (A[0] === '1' && B[0] === '0')) {
-      if (adddigit === 1) {
-        result.push('0');
-      } else {
-        result.push('1');
-      }
-    } else {
+    } else if (A[0] === '0' && B[0] === '0') {
       if (adddigit === 1) {
         result.push('1');
         adddigit = 0;
+      } else {
+        result.push('0');
       }
-      result.push('0');
+    } else {
+      if (adddigit === 1) {
+        result.push('0');
+        adddigit = 0;
+      }
+      result.push('1');
     }
     A.shift();
     B.shift();
@@ -32,4 +33,4 @@ function add(a, b) {
   return (parseInt(result.reverse().join(''), 2));
 }
 
-console.log(add(123, 456));
+console.log(add(12, 456));
