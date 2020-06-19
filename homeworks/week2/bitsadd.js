@@ -29,7 +29,7 @@ function add(a, b) {
     A.shift();
     B.shift();
   }
-  console.log(parseInt(result.reverse().join(''), 2));
+  return (parseInt(result.reverse().join(''), 2));
 }
 
-add(123, 456);
+console.log(add(123, 456));
