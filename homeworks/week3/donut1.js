@@ -167,15 +167,15 @@ function solve(input) {
   const startX = start[0];
   const startY = start[1];
   dis[startY][startX] = 0;
-  const quene = [{x: startX, y: startY}];
+  const queue = [{x: startX, y: startY}];
   const dir = [
     {dx: 1, dy: 0},
     {dx: -1, dy: 0},
     {dx: 0, dy: 1},
     {dx: 0, dy: -1},
   ];
-  while (quene.length && finished === false) {
-    const {x, y} = quene.shift();
+  while (queue.length && finished === false) {
+    const {x, y} = queue.shift();
     for (const d of dir) {
       const newX = x + d.dx;
       const newY = y + d.dy;
@@ -186,14 +186,14 @@ function solve(input) {
           const portX = temp[0];
           const portY = temp[1];
           if (dis[y][x] + 1 >= dis[portY][portX] && dis[portY][portX] !== undefined) continue;
-          quene.push({x: portX, y: portY});
+          queue.push({x: portX, y: portY});
           dis[portY][portX] = dis[y][x] + 1;
           continue;
         } else continue;
       }
       if (dis[y][x] + 1 >= dis[newY][newX] && dis[newY][newX] !== undefined) continue;
       dis[newY][newX] = dis[y][x] + 1;
-      quene.push({x: newX, y: newY});
+      queue.push({x: newX, y: newY});
     }
   }
   console.log(dis[end[1]][end[0]]);
