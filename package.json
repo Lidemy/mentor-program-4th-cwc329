@@ -28,11 +28,6 @@
   },
   "homepage": "https://github.com/Lidemy/mentor-program-4th#readme",
   "dependencies": {
-    "express": "^4.17.1",
-    "express-session": "^1.17.1",
-    "handlebars": "^4.7.6",
-    "passport": "^0.4.1",
-    "passport-oauth": "^1.0.0",
     "request": "^2.88.2"
   },
   "devDependencies": {
