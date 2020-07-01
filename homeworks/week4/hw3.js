@@ -8,6 +8,9 @@ request(
   },
   (error, response, body) => {
     const jsonNations = JSON.parse(body);
+    if (jsonNations.message === 'Not Found') {
+      console.log('找不到國家資訊');
+    }
     for (let i = 0; i < jsonNations.length; i += 1) {
       console.log(`
       ============
