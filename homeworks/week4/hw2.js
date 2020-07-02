@@ -1,65 +1,110 @@
+/* eslint consistent-return: 0 */
+// 看完範例後將 switch 中的 cade 處理換成 function，覺得這樣在閱讀上比較方便。
+// 同時也加上錯誤資訊處理
+// 變數命名改得更語意化
 const request = require('request');
 
 const process = require('process');
 
+function readBooks(id) {
+  request.get(
+    `https://lidemy-book-store.herokuapp.com/books/${id}`,
+    (error, response, body) => {
+      if (response.statusCode >= 300 || response.statusCode < 200) {
+        return console.log(`failed to read the book, status code ${response.statusCode}`);
+      }
+      const bookData = JSON.parse(body);
+      return console.log(bookData.name);
+    },
+  );
+}
+
+function listBooks(num = '20') {
+  request.get(
+    `https://lidemy-book-store.herokuapp.com/books?_limit=${num}`,
+    (error, response, body) => {
+      if (num > '9' || num < '0') {
+        return console.log('please type the number of books you want to list.');
+      }
+      if (response.statusCode >= 300 || response.statusCode < 200) {
+        return console.log(`failed to list books, status code ${response.statusCode}`);
+      }
+      const bookList = JSON.parse(body);
+      for (let i = 0; i < bookList.length; i += 1) {
+        return console.log(bookList[i].id, bookList[i].name);
+      }
+    },
+  );
+}
+
+function deleteBooks(id) {
+  request.delete(
+    `https://lidemy-book-store.herokuapp.com/books/${id}`,
+    (error, response) => {
+      if (error) {
+        return console.log(`failed to delete book, status code ${response.statusCode}`);
+      }
+      return console.log('book deleted');
+    },
+  );
+}
+
+function createBooks(bookName) {
+  request.post(
+    {
+      url: 'https://lidemy-book-store.herokuapp.com/books',
+      form: {
+        name: bookName,
+      },
+    },
+    (error, response, body) => {
+      if (response.statusCode >= 300 || response.statusCode < 200) {
+        return console.log(`failed to list books, status code ${response.statusCode}`);
+      }
+      const newBooks = JSON.parse(body);
+      console.log(`book successfully created, id: ${newBooks.id}, name: ${newBooks.name}`);
+    },
+  );
+}
+
+function updateBooks(bookId, updatedName) {
+  request.patch(
+    {
+      url: `https://lidemy-book-store.herokuapp.com/books/${bookId}`,
+      form: {
+        name: updatedName,
+      },
+    },
+    (error, response, body) => {
+      if (response.statusCode >= 300 || response.statusCode < 200) {
+        return console.log(`failed to update the book, status code ${response.statusCode}`);
+      }
+      const updatedBooks = JSON.parse(body);
+      return console.log(`book successfully updated, id: ${updatedBooks.id}, name: ${updatedBooks.name}`);
+    },
+  );
+}
+
 const action = process.argv[2];
 switch (action) {
   case 'read':
-    request.get(
-      `https://lidemy-book-store.herokuapp.com/books/${process.argv[3]}`,
-      (error, response, body) => {
-        const json = JSON.parse(body);
-        console.log(json.name);
-      },
-    );
+    readBooks(process.argv[3]);
     break;
   case 'list':
-    request.get(
-      'https://lidemy-book-store.herokuapp.com/books?_limit=20',
-      (error, response, body) => {
-        const json = JSON.parse(body);
-        for (let i = 0; i < json.length; i += 1) {
-          console.log(json[i].id, json[i].name);
-        }
-      },
-    );
+    listBooks(process.argv[3]);
     break;
   case 'delete':
-    request.delete(
-      `https://lidemy-book-store.herokuapp.com/books/${process.argv[3]}`,
-      (error, response) => {
-        console.log(response.statusCode);
-      },
-    );
+    deleteBooks(process.argv[3]);
     break;
   case 'create':
-    request.post(
-      {
-        url: 'https://lidemy-book-store.herokuapp.com/books',
-        form: {
-          name: process.argv[3],
-        },
-      },
-      (error, response, body) => {
-        const json = JSON.parse(body);
-        console.log(json);
-      },
-    );
+    createBooks(process.argv[3]);
     break;
   case 'update':
-    request.patch(
-      {
-        url: `https://lidemy-book-store.herokuapp.com/books/${process.argv[3]}`,
-        form: {
-          name: process.argv[4],
-        },
-      },
-      (error, response, body) => {
-        const json = JSON.parse(body);
-        console.log(json);
-      },
-    );
+    updateBooks(process.argv[3], process.argv[4]);
     break;
   default:
-    console.log(`no such command as ${action}`);
+    console.log(
+      `no such command as ${action},
+      please try read, list, delete, create or update instead.`,
+    );
 }
