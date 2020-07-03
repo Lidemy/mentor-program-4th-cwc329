@@ -3,12 +3,15 @@
 // 同時也加上錯誤資訊處理
 // 變數命名改得更語意化
 const request = require('request');
-
 const process = require('process');
+
+const apiUrl = 'https://lidemy-book-store.herokuapp.com/books';
 
 function readBooks(id) {
   request.get(
-    `https://lidemy-book-store.herokuapp.com/books/${id}`,
+    {
+      url: `${apiUrl}/${id}`,
+    },
     (error, response, body) => {
       if (response.statusCode >= 300 || response.statusCode < 200) {
         return console.log(`failed to read the book, status code ${response.statusCode}`);
@@ -21,7 +24,9 @@ function readBooks(id) {
 
 function listBooks(num = '20') {
   request.get(
-    `https://lidemy-book-store.herokuapp.com/books?_limit=${num}`,
+    {
+      url: `${apiUrl}?_limit=${num}`,
+    },
     (error, response, body) => {
       if (num > '9' || num < '0') {
         return console.log('please type the number of books you want to list.');
@@ -39,7 +44,9 @@ function listBooks(num = '20') {
 
 function deleteBooks(id) {
   request.delete(
-    `https://lidemy-book-store.herokuapp.com/books/${id}`,
+    {
+      url: `${apiUrl}/${id}`,
+    },
     (error, response) => {
       if (error) {
         return console.log(`failed to delete book, status code ${response.statusCode}`);
@@ -52,7 +59,7 @@ function deleteBooks(id) {
 function createBooks(bookName) {
   request.post(
     {
-      url: 'https://lidemy-book-store.herokuapp.com/books',
+      url: apiUrl,
       form: {
         name: bookName,
       },
@@ -70,7 +77,7 @@ function createBooks(bookName) {
 function updateBooks(bookId, updatedName) {
   request.patch(
     {
-      url: `https://lidemy-book-store.herokuapp.com/books/${bookId}`,
+      url: `${apiUrl}/${bookId}`,
       form: {
         name: updatedName,
       },
