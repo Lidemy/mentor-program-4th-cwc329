@@ -3,8 +3,9 @@ const request = require('request');
 const process = require('process');
 
 const gameName = process.argv[2];
+const result = [];
 
-function searchStreamByGame(/* arr, */ name /* , callback */) {
+function searchStreamByGame(arr, name) {
   for (let i = 0; i <= 100; i += 100) {
     request.get(
       {
@@ -24,10 +25,10 @@ function searchStreamByGame(/* arr, */ name /* , callback */) {
           const channelName = jsonChannelData[j].channel.display_name;
           const channelId = jsonChannelData[j].channel._id;
           console.log(channelName, channelId);
-          // arr.push([channelName,channelId]);
+          arr.push([channelName, channelId]);
         }
       },
     );
   }
 }
-searchStreamByGame(/* result, */gameName);
+searchStreamByGame(result, gameName);
