@@ -8,14 +8,16 @@ function options(action, apiPath, headers = { connection: 'keep-alive' }) {
   const option = {
     hostname: 'lidemy-book-store.herokuapp.com',
     port: 443,
-    path: apiPath,
+    path: `/books${apiPath}`,
     method: action,
     headers,
   };
   return option;
 }
 
-function readBooks(method, path) {
+function readBooks(id) {
+  const method = 'GET';
+  const path = `/${id}`;
   const option = options(method, path);
   const req = https.request(option, (res) => {
     res.on('data', (chunky) => {
@@ -30,7 +32,6 @@ function readBooks(method, path) {
     });
   });
   // Write data to request body
-  req.write('');
   req.end();
 
   req.on('error', (e) => {
@@ -38,7 +39,9 @@ function readBooks(method, path) {
   });
 }
 
-function listBooks(method, path) {
+function listBooks(extraInput = '20') {
+  const method = 'GET';
+  const path = `?_limit=${extraInput}`;
   const option = options(method, path);
   const req = https.request(option, (res) => {
     res.on('data', (chunky) => {
@@ -48,8 +51,6 @@ function listBooks(method, path) {
       }
     });
   });
-  // Write data to request body
-  req.write('');
   req.end();
 
   req.on('error', (e) => {
@@ -57,7 +58,9 @@ function listBooks(method, path) {
   });
 }
 
-function deleteBooks(method, path) {
+function deleteBooks(id) {
+  const method = 'DELETE';
+  const path = `/${id}`;
   const option = options(method, path);
   const req = https.request(option, (res) => {
     res.on('data', (chunky) => {
@@ -67,8 +70,6 @@ function deleteBooks(method, path) {
       }
     });
   });
-  // Write data to request body
-  req.write('');
   req.end();
 
   req.on('error', (e) => {
@@ -76,9 +77,11 @@ function deleteBooks(method, path) {
   });
 }
 
-function createBooks(method, path) {
+function createBooks(bookName) {
+  const method = 'POST';
+  const path = '';
   const newBook = querystring.stringify({
-    name: `${process.argv[3]}`,
+    name: bookName,
   });
   const reqHeaders = {
     connection: 'keep-alive',
@@ -101,9 +104,11 @@ function createBooks(method, path) {
   });
 }
 
-function updateBooks(method, path) {
+function updateBooks(bookId, updateName) {
+  const method = 'PATCH';
+  const path = `/${bookId}`;
   const updateBook = querystring.stringify({
-    name: `${process.argv[4]}`,
+    name: updateName,
   });
   const reqHeaders = {
     type: 'keep-alive',
@@ -128,19 +133,19 @@ function updateBooks(method, path) {
 
 switch (usersCommand) {
   case 'read':
-    readBooks('GET', `/books/${process.argv[3]}`);
+    readBooks(process.argv[3]);
     break;
   case 'list':
-    listBooks('GET', '/books?_limit=20');
+    listBooks(process.argv[3]);
     break;
   case 'delete':
-    deleteBooks('DELETE', `/books/${process.argv[3]}`);
+    deleteBooks(process.argv[3]);
     break;
   case 'create':
-    createBooks('POST', '/books');
+    createBooks(process.argv[3]);
     break;
   case 'update':
-    updateBooks('PATCH', `/books/${process.argv[3]}`);
+    updateBooks(process.argv[3], process.argv[4]);
     break;
   default:
     console.log(

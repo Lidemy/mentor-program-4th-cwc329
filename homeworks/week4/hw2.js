@@ -1,5 +1,5 @@
 /* eslint consistent-return: 0 */
-// 看完範例後將 switch 中的 cade 處理換成 function，覺得這樣在閱讀上比較方便。
+// 看完範例後將 switch 中的 code 處理換成 function，覺得這樣在閱讀上比較方便。
 // 同時也加上錯誤資訊處理
 // 變數命名改得更語意化
 const request = require('request');
@@ -22,13 +22,13 @@ function readBooks(id) {
   );
 }
 
-function listBooks(num = '20') {
+function listBooks(extraInput = '20') {
   request.get(
     {
-      url: `${apiUrl}?_limit=${num}`,
+      url: `${apiUrl}?_limit=${extraInput}`,
     },
     (error, response, body) => {
-      if (num > '9' || num < '0') {
+      if (extraInput > '9' || extraInput < '0') {
         return console.log('please type the number of books you want to list.');
       }
       if (response.statusCode >= 300 || response.statusCode < 200) {
