@@ -36,7 +36,7 @@ function listBooks(num = '20') {
       }
       const bookList = JSON.parse(body);
       for (let i = 0; i < bookList.length; i += 1) {
-        return console.log(bookList[i].id, bookList[i].name);
+        console.log(bookList[i].id, bookList[i].name);
       }
     },
   );
@@ -51,7 +51,7 @@ function deleteBooks(id) {
       if (error) {
         return console.log(`failed to delete book, status code ${response.statusCode}`);
       }
-      return console.log('book deleted');
+      return console.log('book deleted.');
     },
   );
 }
@@ -66,10 +66,10 @@ function createBooks(bookName) {
     },
     (error, response, body) => {
       if (response.statusCode >= 300 || response.statusCode < 200) {
-        return console.log(`failed to list books, status code ${response.statusCode}`);
+        return console.log(`failed to create the book, status code ${response.statusCode}`);
       }
       const newBooks = JSON.parse(body);
-      console.log(`book successfully created, id: ${newBooks.id}, name: ${newBooks.name}`);
+      console.log(`book successfully created.\nid: ${newBooks.id}, name: ${newBooks.name}`);
     },
   );
 }
@@ -87,7 +87,7 @@ function updateBooks(bookId, updatedName) {
         return console.log(`failed to update the book, status code ${response.statusCode}`);
       }
       const updatedBooks = JSON.parse(body);
-      return console.log(`book successfully updated, id: ${updatedBooks.id}, name: ${updatedBooks.name}`);
+      return console.log(`book successfully updated.\nid: ${updatedBooks.id}, name: ${updatedBooks.name}`);
     },
   );
 }
@@ -111,7 +111,6 @@ switch (action) {
     break;
   default:
     console.log(
-      `no such command as ${action},
-      please try read, list, delete, create or update instead.`,
+      `no such command as ${action},\nplease try read, list, delete, create or update instead.`,
     );
 }
