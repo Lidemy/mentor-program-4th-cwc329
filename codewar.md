@@ -22,87 +22,87 @@ Codewar 是一個程式解題平台，上面充滿著各種開發者出的題目
 
 ## 零顆星（超簡單）
 
-### ❌ Opposite number
+### ✅ Opposite number
 題目連結：https://www.codewars.com/kata/opposite-number/javascript  
 題目說明：正數變負數，反之亦然
 
-### ❌ Even or Odd
+### ✅ Even or Odd
 題目連結：https://www.codewars.com/kata/even-or-odd/javascript  
 題目說明：判斷是奇數或是偶數
 
 ## 一顆星（熟悉語法）
 
-### ❌ Number-Star ladder
+### ✅ Number-Star ladder
 題目連結：https://www.codewars.com/kata/number-star-ladder/javascript  
 題目說明：
 這題就是依照規律輸出文字，沒什麼好講的
 
-### ❌ Who likes it
+### ✅ Who likes it
 題目連結：https://www.codewars.com/kata/who-likes-it  
 題目說明：模擬 Facebook 按讚時或出現的文字
 
-### ❌ String repeat
+### ✅ String repeat
 題目連結：https://www.codewars.com/kata/string-repeat/javascript  
 題目說明：回傳重複 n 遍的字串
 
-### ❌ Build Tower
+### ✅ Build Tower
 題目連結：https://www.codewars.com/kata/build-tower  
 題目說明：
 也是依照規律輸出文字即可
 
-### ❌ Reversed Strings
+### ✅ Reversed Strings
 題目連結：https://www.codewars.com/kata/reversed-strings/javascript  
 題目說明：
 把輸入的文字反轉過後回傳，如果想挑戰自己的話，可以試試看用陣列的各種內建函式組合完成
 
-### ❌ Reversed Words
+### ✅ Reversed Words
 題目連結：https://www.codewars.com/kata/reversed-words  
 題目說明：
 這一題是進階版的字串反轉，原本的只要把每個「字元」反轉，這個則是要把每個「單字」反轉。
 
-### ❌ Alternate case
+### ✅ Alternate case
 題目連結：https://www.codewars.com/kata/alternate-case  
 題目說明：把大寫字母轉成小寫，小寫字母轉成大寫
 
-### ❌ You only need one - Beginner
+### ✅ You only need one - Beginner
 題目連結：https://www.codewars.com/kata/you-only-need-one-beginner/javascript  
 題目說明：回傳要找的元素是否在陣列裡面
 
-### ❌ Find the capitals
+### ✅ Find the capitals
 題目連結：https://www.codewars.com/kata/find-the-capitals-1/javascript  
 題目說明：回傳大寫字母所在的 index
 
-### ❌ Sum arrays
+### ✅ Sum arrays
 題目連結：https://www.codewars.com/kata/sum-arrays/javascript  
 題目說明：把陣列加總回傳結果
 
-### ❌ Find the smallest integer in the array
+### ✅ Find the smallest integer in the array
 題目連結：https://www.codewars.com/kata/find-the-smallest-integer-in-the-array   
 題目說明：找出陣列中最小的數字
 
 ## 兩顆星（需要花點時間思考）
 
-### ❌ Shortest Word
+### ✅ Shortest Word
 題目連結：https://www.codewars.com/kata/shortest-word/javascript  
 題目說明：回傳最短的單字的長度
 
-### ❌ Bit Counting
+### ✅ Bit Counting
 題目連結：https://www.codewars.com/kata/bit-counting/javascript  
 題目說明：計算 bit 的總數
 
-### ❌ Find The Parity Outlier
+### ✅ Find The Parity Outlier
 題目連結：https://www.codewars.com/kata/find-the-parity-outlier/javascript   
 題目說明：全部的數字裡，只有一個的奇偶跟其他的不一樣，你要找出這個數字
 
-### ❌ Take a Ten Minute Walk
+### ✅ Take a Ten Minute Walk
 題目連結：https://www.codewars.com/kata/take-a-ten-minute-walk/javascript  
 題目說明：有一個人他可以往東南西北這四個方向走，請幫他計算它能否剛好在十步的時候回到原點
 
-### ❌ Tribonacci Sequence
+### ✅ Tribonacci Sequence
 題目連結：https://www.codewars.com/kata/tribonacci-sequence/javascript  
 題目說明：費式數列的進階版
 
-### ❌ A Man and his Umbrellas
+### ✅ A Man and his Umbrellas
 題目連結：https://www.codewars.com/kata/a-man-and-his-umbrellas/javascript  
 題目說明：  
 這題需要花多一點時間去思考。
@@ -115,7 +115,7 @@ input 會給你每天的氣象預報，基本上就是下雨跟沒下雨。如�
 
 `["rainy", "rainy", "rainy", "rainy", "thunderstorms", "rainy"]`的話，每一天的早上跟晚上都在下雨，所以只要買一把傘就可以從家裡到公司，再從公司帶回家裡。
 
-### ❌ Check if two words are isomorphic to each other
+### ✅ Check if two words are isomorphic to each other
 題目連結：https://www.codewars.com/kata/check-if-two-words-are-isomorphic-to-each-other  
 題目說明：  
 這題比較複雜一點，如果兩個字串 A 跟 B 存在「一對一關係」，那我們就可以說這兩個字串是同構（isomorphic）的。  
