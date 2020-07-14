@@ -1,0 +1,255 @@
+@import "file:///Users/waitingkid/Documents/Lidemy/mentor-program-4th-cwc329/node_modules/normalize.css/normalize.css";
+
+.navbar {
+  box-shadow: -1.4px -1.4px 6px 0 #97a2a0;
+}
+
+.navbar .navbar__wrapper
+ {
+  max-width: 1920px;
+  height: 84px;
+  display: flex;
+  margin: 0 auto;
+  padding: 0 48px;
+  background-color: #ffffff;
+  justify-content: space-between;
+  align-items: center;
+}
+.navbar__site-name {
+  color: #489846;
+  font-family: Questrial-Regular;
+  font-size: 36px;
+}
+
+.navbar__list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: row;
+  font-size: 18px;
+}
+
+.navbar__list li {
+  margin-left: 12px;
+  border-radius: 8px;
+}
+
+.navbar__list li a {
+  display: block;
+  text-decoration: none;
+  color: #010101;
+  padding: 12px 25px;
+}
+
+.navbar__list .active a, 
+.navbar__list li:hover a {
+  text-decoration: none;
+  color: #fefefe;
+}
+
+.navbar__list li.active,
+.navbar__list li:hover {
+  background-color: #ff7286;
+  text-decoration: none;
+}
+
+.banner__wrapper {
+  position: relative;
+}
+
+.banner {
+  position: relative;
+  height: 580px;
+  background: linear-gradient(rgba(0,0,0,0.3), rgba(0,0,0,0.5)),
+    url("imgs/2.png") center/cover no-repeat;
+  object-fit: contain;
+}
+
+.banner__title {
+  position: relative;
+  top: 50%;
+  margin: 0;
+  text-align: center;
+  font-family: MicrosoftJhengHei;
+  font-size: 60px;
+  font-weight: bold;
+  color: white;
+}
+
+.section__wrapper {
+  padding: 0 16px;
+}
+
+.section {
+  text-align: center;
+}
+
+h2 {
+  display: inline-block;
+  font-family: MicrosoftJhengHei;
+  font-size: 36px;
+  font-weight: bold;
+  color: #000000;
+  border-left: solid #a3dea2 15px;
+  margin-top: 80px;
+  margin-bottom: 40px;
+  padding-left: 17px;
+}
+
+.section__content {
+  font-family: MicrosoftJhengHei;
+  font-size: 16px;
+  margin: 0;
+  color: #000000;
+  line-height: 37px;
+}
+
+.section__buttons a {
+  display: inline-block;
+  box-sizing: border-box;
+  width: 300px;
+  height: 160px;
+  border-radius: 10px;
+  padding-top: 60px;
+  padding-bottom: 60px;
+  margin: 84px 11px;
+  font-family: MicrosoftJhengHei;
+  font-size: 36px;
+  font-weight: bold;
+  font-stretch: normal;
+  font-style: normal;
+  line-height: normal;
+  letter-spacing: 0.32px;
+  text-align: center;
+  text-decoration: none;
+  color: #3e613d;
+}
+
+.section__button-order {
+  background-color: #a8e8e1;
+}
+
+.section__button-query {
+  background-color: #f9f9b5;
+}
+
+.menu {
+  text-align: center;
+}
+
+.menu__imgs {
+  display: flex;
+}
+
+.menu__imgs div {
+  width: 25%;
+}
+
+.menu__imgs div img {
+  width: 100%;
+}
+
+.map__wrapper {
+  text-align: center;
+}
+
+.footer__wrapper {
+  margin-top: 40px;
+}
+
+.footer__top {
+  display: flex;
+  justify-content: space-between;
+  height: 186px;
+  background-color: #e8efee;
+  padding: 0 105px;
+}
+
+.footer__top-info {
+  box-sizing: border-box;
+  font-family: MicrosoftJhengHei;
+  font-size: 14px;
+  color: #484848;
+  line-height: 30px;
+  padding: 30px 0;
+  margin: 0;
+}
+
+.footer__top-site {
+  padding-top: 30px;
+  margin-left: 30px;
+}
+
+.footer__bottom {
+  box-sizing: border-box;
+  height: 48px;
+  padding: 16px;
+  text-align: center;
+  font-family: MicrosoftJhengHei;
+  font-size: 16px;
+  text-align: center;
+  color: #ffffff;
+  background-color: #35564b;
+}
+
+.footer__name {
+  color: #489846;
+  font-family: Questrial-Regular;
+  font-size: 36px;
+}
+
+@media(max-width: 768px) {
+  .navbar .navbar__wrapper
+   {
+    height: 100px;
+    flex-direction: column;
+    justify-content: space-between;
+    padding: 0;
+  }
+  
+  .navbar__site-name {
+    margin-top: 10px;
+  }
+
+  .navbar__list li {
+    margin: 0;
+    padding: 0;
+  }
+  
+  .section__buttons a{
+    margin: 20px 11px;
+  }
+
+  .menu__imgs {
+    flex-direction: column;
+  }
+  
+  .menu__imgs div {
+    width: 100%;
+  }
+
+  .footer__top {
+    display: flex;
+    justify-content: space-between;
+    height: 186px;
+    background-color: #e8efee;
+    padding: 10px;
+    flex-direction: column-reverse;
+  }
+
+  .footer__top-info {
+    padding: 0;
+    margin: 0;
+    line-height: 1.5em;
+  }
+
+  .footer__bottom {
+    padding: 5px;
+  }
+
+  .footer__top-site {
+    padding: 0;
+    margin: 0;
+  }
+}
