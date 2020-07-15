@@ -117,9 +117,6 @@ h2 {
   font-family: MicrosoftJhengHei;
   font-size: 36px;
   font-weight: bold;
-  font-stretch: normal;
-  font-style: normal;
-  line-height: normal;
   letter-spacing: 0.32px;
   text-align: center;
   text-decoration: none;
@@ -132,6 +129,11 @@ h2 {
 
 .section__button-query {
   background-color: #f9f9b5;
+}
+
+.section__buttons a:hover {
+  transform: scale(1.1);
+  transition: 0.1s ease-in;
 }
 
 .menu {
@@ -150,8 +152,67 @@ h2 {
   width: 100%;
 }
 
+.review__wrapper {
+  margin: 0 96px;
+  text-align: center;
+}
+
+.review__reviewers {
+  display: flex;
+  margin-top: 52.5px;
+}
+
+.review__reviewers > div {
+  width: 33.3%;
+  position: relative;
+  display: flex;
+}
+
+.review__reviewer1 ~ div {
+  margin-left: 16px;
+}
+
+.review__reviewers > div > div {
+  position: absolute;
+  left: 50%;
+  top: -52.5px;
+  transform: translateX(-50%);
+}
+
+.review__reviewers > div > div > div {
+  box-sizing: border-box;
+  margin:0 auto;
+  width: 105px;
+  height: 105px;
+  border-radius: 50% 50%;
+}
+
+.review__reviewers > div > p {
+  box-sizing: border-box;
+  padding: 96px 20px 40px 20px;
+  font-family: MicrosoftJhengHei;
+  font-size: 16px;
+  line-height: 1.5em;
+  border-radius: 5px;
+  box-shadow: -1.4px -1.4px 4px 0 #d8eaef;
+  border: solid 1px #c7e5ec;
+  background-color: #ffffff;
+}
+
+.review__reviewer1-photo {
+  background: url("./imgs/p-1.png");
+}
+
+.review__reviewer2-photo {
+  background: url("./imgs/p-2.png");
+}
+
+.review__reviewer3-photo {
+  background: url("./imgs/p-3.png");
+}
 .map__wrapper {
   text-align: center;
+  margin:0 96px;
 }
 
 .footer__wrapper {
@@ -227,6 +288,19 @@ h2 {
   
   .menu__imgs div {
     width: 100%;
+  }
+
+  .review__reviewers {
+    flex-direction: column;
+  }
+
+  .review__reviewers > div {
+    width: 100%;
+  }
+
+  .review__reviewer1 ~ div {
+    margin-left: 0px;
+    margin-top: 72.5px;
   }
 
   .footer__top {
