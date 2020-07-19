@@ -1,3 +1,5 @@
+@import url("../../../node_modules/normalize.css/normalize.css");
+
 .form__wrapper {
   box-sizing: border-box;
   max-width: 645px;

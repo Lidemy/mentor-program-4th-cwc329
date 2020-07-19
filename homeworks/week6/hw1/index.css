@@ -1,3 +1,5 @@
+@import url("../../../node_modules/normalize.css/normalize.css");
+
 .navbar {
   box-shadow: -1.4px -1.4px 6px 0 #97a2a0;
 }
