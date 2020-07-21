@@ -10,11 +10,12 @@
   height: 84px;
   display: flex;
   margin: 0 auto;
-  padding: 0 48px;
+  padding: 0 20px;
   background-color: #ffffff;
   justify-content: space-between;
   align-items: center;
 }
+
 .navbar__site-name {
   color: #489846;
   font-family: Questrial-Regular;
@@ -31,15 +32,17 @@
 }
 
 .navbar__list li {
-  margin-left: 12px;
   border-radius: 8px;
+  padding: 12px 25px;
+}
+
+.navbar__list li ~ li {
+  margin-left: 10px;
 }
 
 .navbar__list li a {
-  display: block;
   text-decoration: none;
   color: #010101;
-  padding: 12px 25px;
 }
 
 .navbar__list .active a, 
@@ -133,7 +136,7 @@ h2 {
 
 .section__buttons a:hover {
   transform: scale(1.1);
-  transition: 0.1s ease-in;
+  transition: 0.3s ease-in;
 }
 
 .menu {
@@ -265,19 +268,38 @@ h2 {
    {
     height: 100px;
     flex-direction: column;
-    justify-content: space-between;
-    padding: 0;
+    justify-content: center;
+    padding: 0px;
   }
   
   .navbar__site-name {
     margin-top: 10px;
   }
 
-  .navbar__list li {
-    margin: 0;
-    padding: 0;
+  .navbar__list {
+    justify-content: space-around;
+    width: 100%;
   }
-  
+
+  .navbar__list li {
+    box-sizing: border-box;
+    flex: 1;
+    margin-left: 0px;
+    padding: 10px;
+    font-size: 15px;
+    text-align: center;
+  }
+ 
+  .navbar__list li ~ li {
+    margin-left: 0px;
+  }
+
+  .navbar__list li a {
+    display: block;
+    text-decoration: none;
+    color: #010101;
+  }
+
   .section__buttons a{
     margin: 20px 11px;
   }
@@ -290,6 +312,10 @@ h2 {
     width: 100%;
   }
 
+  .review__wrapper {
+    margin: 0px 16px;
+  }
+  
   .review__reviewers {
     flex-direction: column;
   }
@@ -301,6 +327,10 @@ h2 {
   .review__reviewer1 ~ div {
     margin-left: 0px;
     margin-top: 72.5px;
+  }
+
+  .map__wrapper {
+    margin: 0 16px;
   }
 
   .footer__top {
