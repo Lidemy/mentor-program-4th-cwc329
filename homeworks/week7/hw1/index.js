@@ -2,7 +2,6 @@
 const form = document.getElementsByTagName('form');
 
 form[0].addEventListener('submit', (e) => {
-  e.preventDefault();
   let submitContent = '請確認您所提交的內容';
   const submits = e.target;
   for (let i = 0; i < submits.length - 1; i += 1) {
@@ -23,14 +22,10 @@ form[0].addEventListener('submit', (e) => {
     }
     submitContent += `\n${h2Content}${submitText}`;
   }
-  console.log(submitContent);
   alert(submitContent);
 });
 
 form[0].addEventListener('invalid', (e) => {
-  if (e.target.id === 'on-ground') {
-    return;
-  }
   let questionDiv = e.target.parentElement;
   if (questionDiv.tagName === 'SECTION') {
     questionDiv = questionDiv.parentElement;
