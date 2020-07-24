@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel= "stylesheet" href="index.css" />
+  <title>Lazy Hackthon-enroll</title>
+</head>
+<body>
+  <div class="form__wrapper">
+    <h1 class="form__title">
+      新拖延運動報名表單
+    </h1>
+    <p class="form__event-info">
+      活動日期：2020/12/10 ~ 2020/12/11<br>
+      活動地點：台北市大安區新生南路二段1號<br>
+    </p>
+    <p class="form__reminder">
+      <span>* 必填</span>
+    </p>
+    <form class="form__questions">
+      <section calss="form__questions--required">
+        <div class="form__questions--name">
+          <h2>暱稱<span> *</span></h2>
+          <input type="text" name="nickname" placeholder="您的回答" required/>
+        </div>
+        <div class="form__questions--email">
+          <h2>電子郵件<span> *</span></h2>
+          <input type="email" name="email" placeholder="您的電子郵件" required/>
+        </div>
+        <div class="form__questions--cellphone">
+          <h2>手機號碼<span> *</span></h2>
+          <input type="tel" name="cellphone" placeholder="您的手機號碼" required/>
+        </div>
+        <div class="form__questions--programs">
+          <h2>報名類型<span> *</span></h2>
+          <section><input type="radio" name="program" id="in-bed" required/><label for="in-bed"> 躺在床上用想像力實作</label></section>
+          <section><input type="radio" name="program" id="on-ground" required/><label for="on-ground"> 趴在地上滑手機找現成的</label></section>
+        </div>
+        <div class="form__questions--acquire">
+          <h2>怎麼知道這個活動的<span> *</span></h2>
+          <input type="text" name="acquire" placeholder="您的回答" required/>
+        </div>
+      </section>
+      <div class="form__questions--other">
+        <h2>其他  </h2>
+        <p>對活動的一些建議 </p>
+        <input type="text" name="other" placeholder="您的回答" />
+      </div>
+      <div class="form__questions--submit">
+        <input type="submit" name="submit" value="提交" />
+        <p>請勿透過表單送出您的密碼</p>
+      </div>
+    </form>
+  </div>
+  <footer class="footer">
+    <p>© 2020 © Copyright. All rights Reserved.</p>
+  </footer>
+  <script src="index.js"></script>
+</body>
+</html>
