@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Lazy To-Do List</title>
+  <link rel="stylesheet" href="index.css" />
+</head>
+<body>
+  <h1 class="title">懶人行事曆</h1>
+  <p>請填入日期、時間以及要做的事情，並按下新增。</p>
+  <div class="wrapper">
+    <div class="addSection">
+      <input type="date" name="toDoDate" required/>
+      <input type="time" name="toDoTime" required/>
+      <input type="text" name="toDoEvent" placeholder="事項" required/>
+      <input type="submit" name="addBtn" value="新增" required/>
+    </div>
+    <div class="listSection">
+      <table class="toDoList__table">
+        <tr>
+          <th>check</th>
+          <th>日期</th>
+          <th>時間</th>
+          <th>事項</th>
+          <th>delete</th>
+        </tr>
+      </table>
+    </div>
+  </div>
+</table>
+  <script src="index.js"></script>
+</body>
+</html>

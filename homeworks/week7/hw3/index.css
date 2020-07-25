@@ -1,0 +1,47 @@
+@import url("../../../node_modules/normalize.css/normalize.css");
+
+.del :not(:last-child) {
+  text-decoration-line: line-through;
+}
+
+h1, p {
+  text-align: center;
+}
+
+.wrapper {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  box-sizing: border-box;
+  max-width: 800px;
+  box-shadow: 1.8px 2.4px 5px 0 rgba(0, 0, 0, 0.3);
+  background-color: #ffffff;
+  border-top: solid 8px #fad312;
+  margin: 10px auto 60px auto;
+  padding: 35px 45px;
+}
+
+th {
+  font-size: 20px;
+}
+
+.addSection, .listSection {
+  display: flex;
+  justify-content: space-around;
+}
+
+input {
+  margin: 10px;
+}
+
+table {
+  width: 100%;
+  display: table;
+  text-align: center;
+}
+
+
+th, td {
+  width: 20%;
+}
+
