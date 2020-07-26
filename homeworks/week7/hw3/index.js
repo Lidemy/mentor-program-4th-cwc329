@@ -3,6 +3,15 @@ const addBtn = document.getElementsByName('addBtn')[0];
 
 const toDoListTable = document.querySelector('.toDoList__table');
 
+function escapeHtml(unsafe) {
+  return unsafe
+    .replace(/&/g, '&amp;')
+    .replace(/</g, '&lt;')
+    .replace(/>/g, '&gt;')
+    .replace(/"/g, '&quot;')
+    .replace(/'/g, '&#039;');
+}
+
 addBtn.addEventListener('click', () => {
   const addDate = document.getElementsByName('toDoDate')[0].value;
   const addTime = document.getElementsByName('toDoTime')[0].value;
@@ -17,7 +26,7 @@ addBtn.addEventListener('click', () => {
       checkbox: newCheckbox.outerHTML,
       date: addDate,
       time: addTime,
-      event: addEvent,
+      event: escapeHtml(addEvent),
       deletbtn: deleteBtn.outerHTML,
     };
     for (const s of Object.values(newTrContent)) {
