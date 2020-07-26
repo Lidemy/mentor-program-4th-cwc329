@@ -19,20 +19,7 @@ form[0].addEventListener('submit', (e) => {
   alert(submitContent);
 });
 
-form[0].addEventListener('invalid', (e) => {
-  const questionDiv = e.target.closest('div');
-  const invalidMessage = e.target.validationMessage;
-  const warningLine = document.createElement('div');
-  warningLine.classList.add('warningLine');
-  warningLine.innerText = invalidMessage;
-  const { children } = questionDiv;
-  const lastLine = children[children.length - 1];
-  if (lastLine.tagName !== 'DIV') {
-    questionDiv.appendChild(warningLine);
-  }
-}, true);
-
-form[0].addEventListener('change', (e) => {
+function checkInvalid(e) {
   const questionDiv = e.target.closest('div');
   const invalidMessage = e.target.validationMessage;
   const warningLine = document.createElement('div');
@@ -41,10 +28,16 @@ form[0].addEventListener('change', (e) => {
   const { children } = questionDiv;
   const lastLine = children[children.length - 1];
   if (invalidMessage) {
-    if (lastLine.tagName !== 'DIV') {
+    if (!lastLine.classList.contains('warningLine')) {
       questionDiv.appendChild(warningLine);
+    } else {
+      lastLine.innerText = invalidMessage;
     }
   } else if (lastLine.tagName === 'DIV') {
     questionDiv.removeChild(lastLine);
   }
-});
+}
+
+form[0].addEventListener('invalid', checkInvalid, true);
+
+form[0].addEventListener('input', checkInvalid);
