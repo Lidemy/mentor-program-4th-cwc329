@@ -14,6 +14,10 @@ a {
   text-decoration: none;
 }
 
+.active {
+  display: block;
+}
+
 h2 {
   display: block;
   font-family: MicrosoftJhengHei;
@@ -79,27 +83,32 @@ h2 {
   flex-direction: column;
 }
 
-.FAQ > div {
+.FAQ > .FAQ__content {
   border-bottom: solid 1px #a6e2c0;
   font-size: 18px;
   cursor: default;
 }
 
-.FAQ > div ~ div {
+.FAQ__content ~ .FAQ__content {
   margin-top: 30px;
 }
 
-.FAQ > div .FAQ__content--question {
+.FAQ .FAQ__content--question {
   margin-bottom: 16px;
 }
 
-span {
+.FAQ__content--question span {
   display: inline-block;
   color: #70b282;
   font-size: 24px;
 }
 
-.FAQ > .FAQ__content > p {
+p.FAQ__content--answer.active {
+  display: block;
+}
+
+p.FAQ__content--answer {
+  display: none;
   font-size: 16px;
   padding-left: 35px;
   padding-right: 35px;
