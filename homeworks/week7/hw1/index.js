@@ -3,22 +3,16 @@ const form = document.getElementsByTagName('form');
 
 form[0].addEventListener('submit', (e) => {
   let submitContent = '請確認您所提交的內容';
+  console.log(e);
   const submits = e.target;
   for (let i = 0; i < submits.length - 1; i += 1) {
-    let h2Content = '';
-    let submitText = '';
+    let h2Content = submits[i].closest('div').children[0].outerHTML;
+    h2Content = `${h2Content.slice(h2Content.indexOf('>') + 1, h2Content.indexOf('<', 2))}：`;
+    const submitText = submits[i].value;
     if (submits[i].type === 'radio') {
-      if (submits[i].checked) {
-        h2Content = '報名類型：';
-        submitText = submits[i].parentElement.textContent;
-        submitText = submitText.slice(1);
-      } else {
+      if (!submits[i].checked) {
         continue;
       }
-    } else {
-      h2Content = submits[i].previousElementSibling.textContent;
-      h2Content = `${h2Content.slice(0, h2Content.length - 2)}：`;
-      submitText = submits[i].value;
     }
     submitContent += `\n${h2Content}${submitText}`;
   }
@@ -26,34 +20,28 @@ form[0].addEventListener('submit', (e) => {
 });
 
 form[0].addEventListener('invalid', (e) => {
-  let questionDiv = e.target.parentElement;
-  if (questionDiv.tagName === 'SECTION') {
-    questionDiv = questionDiv.parentElement;
-  }
+  const questionDiv = e.target.closest('div');
   const invalidMessage = e.target.validationMessage;
   const warningLine = document.createElement('div');
+  warningLine.classList.add('warningLine');
+  warningLine.innerText = invalidMessage;
   const { children } = questionDiv;
   const lastLine = children[children.length - 1];
   if (lastLine.tagName !== 'DIV') {
-    warningLine.innerText = invalidMessage;
-    warningLine.style.color = '#e74149';
     questionDiv.appendChild(warningLine);
   }
 }, true);
 
 form[0].addEventListener('change', (e) => {
-  let questionDiv = e.target.parentElement;
-  if (questionDiv.tagName === 'SECTION') {
-    questionDiv = questionDiv.parentElement;
-  }
+  const questionDiv = e.target.closest('div');
   const invalidMessage = e.target.validationMessage;
+  const warningLine = document.createElement('div');
+  warningLine.classList.add('warningLine');
+  warningLine.innerText = invalidMessage;
   const { children } = questionDiv;
   const lastLine = children[children.length - 1];
-  const warningLine = document.createElement('div');
   if (invalidMessage) {
     if (lastLine.tagName !== 'DIV') {
-      warningLine.innerText = invalidMessage;
-      warningLine.style.color = '#e74149';
       questionDiv.appendChild(warningLine);
     }
   } else if (lastLine.tagName === 'DIV') {

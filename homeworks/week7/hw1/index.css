@@ -10,6 +10,11 @@
   padding: 35px 45px;
 }
 
+.warningLine {
+  color: #e74149;
+  font-weight: bold;
+}
+
 h1, h2, p {
   font-family: MicrosoftJhengHei;
 }
@@ -49,8 +54,9 @@ form > div > input, form > section > div > input {
   font-weight: 300;
 }
 
-.form__questions--programs section label {
+.form__questions--programs label {
   font-weight: 300;
+  line-height: 2em;
 }
 
 .form__questions--programs section:nth-child(3){
