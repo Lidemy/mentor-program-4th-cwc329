@@ -66,6 +66,9 @@ addBtn.addEventListener('click', () => {
         }
       }
     }
+    document.getElementsByName('toDoDate')[0].value = '';
+    document.getElementsByName('toDoTime')[0].value = '';
+    document.getElementsByName('toDoEvent')[0].value = '';
   } else {
     alert('請填寫所有欄位');
   }
