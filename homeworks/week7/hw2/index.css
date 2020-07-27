@@ -1,0 +1,192 @@
+@import url("../../../node_modules/normalize.css/normalize.css");
+
+.wrapper {
+  max-width: 1920px;
+  height: 100%;
+  margin: 0 auto;
+  padding: 0 20px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+a {
+  text-decoration: none;
+}
+
+.active {
+  display: block;
+}
+
+h2 {
+  display: block;
+  font-family: MicrosoftJhengHei;
+  font-size: 36px;
+  font-weight: bold;
+  color: #000000;
+  border-left: solid #a3dea2 15px;
+  margin-top: 80px;
+  margin-bottom: 40px;
+  padding-left: 17px;
+  align-self: center;
+}
+
+.navbar {
+  box-shadow: -1.4px -1.4px 6px 0 #97a2a0;
+  background-color: var(--white);
+  height: 84px;
+}
+
+.navbar__title {
+  font-family: Questrial;
+  font-size: 36px;
+  color: #489846;
+}
+
+.navbar__list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: row;
+  font-size: 18px;
+}
+
+.navbar__list li {
+  border-radius: 8px;
+  padding: 12px 25px;
+}
+
+.navbar__list li ~ li {
+  margin-left: 10px;
+}
+
+.navbar__list li a {
+  color: #010101;
+}
+
+.navbar__list #navbar__list--lottery a, 
+.navbar__list li:hover a {
+  color: #fefefe;
+}
+
+.navbar__list #navbar__list--lottery,
+.navbar__list li:hover {
+  background-color: #ff7286;
+}
+
+.FAQ {
+  max-width: 810px;
+  margin: 0 auto;
+  padding: 0 20px;
+  display: flex;
+  flex-direction: column;
+}
+
+.FAQ > .FAQ__content {
+  border-bottom: solid 1px #a6e2c0;
+  font-size: 18px;
+  cursor: default;
+}
+
+.FAQ__content ~ .FAQ__content {
+  margin-top: 30px;
+}
+
+.FAQ .FAQ__content--question {
+  margin-bottom: 16px;
+}
+
+.FAQ__content--question span {
+  display: inline-block;
+  color: #70b282;
+  font-size: 24px;
+}
+
+p.FAQ__content--answer.active {
+  display: block;
+}
+
+p.FAQ__content--answer {
+  display: none;
+  font-size: 16px;
+  padding-left: 35px;
+  padding-right: 35px;
+  line-height: 2rem;
+  margin-top: 0;
+}
+
+.foooter {
+  display: flex;
+  flex-direction: column;
+}
+
+.footer__top {
+  max-width: 1920px;
+  height: 186px;
+  background-color: #e8efee;
+  margin-top: 40px;
+}
+
+.footer__info {
+  line-height: 2rem;
+}
+
+.footer__sitename {
+  color: #489846;
+  font-family: Questrial-Regular;
+  font-size: 36px;
+}
+
+.footer__links {
+  margin: 10px;
+}
+
+.footer__bottom {
+  height: 48px;
+  padding: auto;
+  display: flex;
+  color: #ffffff;
+  background-color: #35564b;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+}
+
+@media (max-width: 768px) {
+  .navbar .wrapper {
+    height: auto;
+    flex-direction: column;
+    justify-content: center;
+    padding: 0;
+  }
+
+  .navbar__list {
+    justify-content: space-around;
+    align-items: center;
+    width: 100%;
+  }
+
+  .navbar__list li {
+    box-sizing: border-box;
+    padding: 10px;
+    font-size: 15px;
+    text-align: center;
+  }
+
+  .navbar__list li ~ li {
+    margin-left: 0px;
+  }
+
+  .footer__top .wrapper {
+    display: flex;
+    height: auto;
+    background-color: #e8efee;
+    padding: 10px;
+    flex-direction: column-reverse;
+  }
+
+  .footer__info {
+    line-height: 1.2rem;
+  }
+}
