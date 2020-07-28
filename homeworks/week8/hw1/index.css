@@ -71,7 +71,8 @@ h2 {
   background-color: #ff7286;
 }
 
-.show {
+.lottery__prize.show {
+  opacity: 1;
   transition: opacity 0.4s;
 }
 
@@ -83,6 +84,7 @@ h2 {
 .lottery {
   display: flex;
   flex-direction: column;
+  max-height: 928px;
 }
 
 .lottery__prize {
