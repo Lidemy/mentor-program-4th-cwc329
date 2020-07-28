@@ -25,10 +25,23 @@ function changeImg(currentInd, direction) {
   return newInd;
 }
 
+function autoPlay() {
+  const interval = setInterval(() => {
+    currentSliderIndex = changeImg(currentSliderIndex, 'forward');
+  }, 3000);
+  return interval;
+}
+
+let timeId = autoPlay();
+
 fwBtn.addEventListener('click', () => {
+  clearInterval(timeId);
   currentSliderIndex = changeImg(currentSliderIndex, 'forward');
+  timeId = autoPlay();
 });
 
 bwBtn.addEventListener('click', () => {
-  currentSliderIndex = changeImg(currentSliderIndex, 'left');
+  clearInterval(timeId);
+  currentSliderIndex = changeImg(currentSliderIndex, 'backward');
+  timeId = autoPlay();
 });
