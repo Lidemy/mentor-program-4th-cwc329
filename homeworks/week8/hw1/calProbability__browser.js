@@ -43,7 +43,9 @@ function calProbability(counts, callback = calProbability) {
           callback(counts - 1, callback);
         }
       } else {
-        callback(counts, callback);
+        observation.ERROR += 1;
+        console.log(observation);
+        callback(counts - 1, callback);
       }
     };
     request.open('GET', ApiEndpoint, true);

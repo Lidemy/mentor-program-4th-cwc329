@@ -12,7 +12,7 @@ const observation = {
 };
 const num = 10;
 
-function calProbability(counts, callback = calProbability) {
+function calProbability(counts) {
   console.log(counts);
   if (counts > 0) {
     request.get({
@@ -44,10 +44,12 @@ function calProbability(counts, callback = calProbability) {
             break;
         }
         if (counts > 0) {
-          callback(counts - 1, callback);
+          calProbability(counts - 1);
         }
       } else {
-        callback(counts, callback);
+        observation.ERROR += 1;
+        console.log(observation);
+        calProbability(counts - 1);
       }
     });
   } else {
