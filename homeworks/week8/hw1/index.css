@@ -127,6 +127,7 @@ h2 {
 .lottery__detail .lottery__detail__item {
   width: 82px;
   text-align-last: center;
+  font-weight: bold;
 }
 
 .lottery__detail .lottery__detail__content {
