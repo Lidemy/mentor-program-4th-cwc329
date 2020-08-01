@@ -82,7 +82,7 @@ h2 {
 }
 
 .lottery__prize.start > .lottery__prize--content {
-  width: 500px;
+  max-width: 500px;
   height: 560px;
   border-radius: 16px;
   line-height: 1.63em;
@@ -93,12 +93,18 @@ h2 {
   justify-content: space-evenly;
   align-items: center;
   font-size: 16px;
+  text-align: left;
+}
+
+.lottery__prize--content {
+  text-align: center;
 }
 
 .lottery__detail.title {
   font-size: 24px;
   font-weight: bold;
   color: #5ec1b6;
+  text-align: center;
 }
 
 .lottery {
@@ -119,6 +125,7 @@ h2 {
 .lottery__prize--content .lottery__detail {
   display: flex;
   justify-content: flex-start;
+  width: 90%;
   flex-direction: row;
   height: auto;
   margin: 5px;
@@ -131,7 +138,7 @@ h2 {
 }
 
 .lottery__detail .lottery__detail__content {
-  width: 320px;
+  flex: 1;
 }
 
 .lottery__detail ~ .lottery__detail {
@@ -170,7 +177,7 @@ h2 {
 }
 
 .lottery__btn {
-  width: 400px;
+  width: 300px;
   height: 55px;
   margin-top: 20px;
   border-radius: 8px;
@@ -247,6 +254,16 @@ h2 {
 
   .navbar__list li ~ li {
     margin-left: 0px;
+  }
+
+  .lottery__prize.start > .lottery__prize--content  {
+    height: auto;
+    padding: 10px;
+    margin: 0 5px;
+  }
+
+  .lottery__detail__content {
+    margin: 0 5px;
   }
 
   .footer__top .wrapper {
