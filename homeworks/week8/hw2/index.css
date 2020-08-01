@@ -31,7 +31,7 @@ body {
   justify-content: space-between;
   align-items: center;
   padding: 0 20px;
-  z-index: 1;
+  z-index: 2;
   font-size: 20px;
 }
 
@@ -73,10 +73,11 @@ body {
   margin-top: 20px;
   padding-top: 20px;
   min-height: 100vh;
-  background: rgba(255, 255, 255, .8);
+  background: rgba(0, 0, 0, .8);
 }
 
 .display__title {
+  color: whitesmoke;
   margin-top: 110px;
   text-align: center;
 }
@@ -96,13 +97,15 @@ body {
   justify-content: flex-start;
   flex-direction: column;
   margin: 10px 5px;
+  filter: brightness(50%);
 }
 
 .display__result:hover {
-  opacity: 1;
+  filter: brightness(1);
   cursor: pointer;
   transform: scale(1.1);
   transition: all .4s;
+  z-index: 1;
 }
 
 .display__result__info {
@@ -130,6 +133,7 @@ body {
 .display__result__info__dicriptions__title {
   line-height: 1.3em;
   height: 2.5em;
+  word-break: break-all;
   overflow: hidden;
 }
 
@@ -154,6 +158,7 @@ body {
   color: rgb(59, 97, 207);
   background: white;
   cursor: pointer;
+  transition: ease-in .3s;
 }
 
 .footer {

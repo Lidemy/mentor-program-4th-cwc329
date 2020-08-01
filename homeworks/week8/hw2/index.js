@@ -4,17 +4,17 @@ const request = new XMLHttpRequest();
 const ApiEndpoint = 'https://api.twitch.tv/kraken';
 const clientId = 'l8v669ong3mcmzuafjnny8y0tcj9vp';
 const displayTitle = document.querySelector('.display__title');
-console.log(displayTitle);
 const moreResultsBtn = document.querySelector('.display__moreResultsBtn');
 const results = document.querySelector('.display__results');
+const lis = document.querySelector('.navbar__topGames').children;
 const resultWidth = 440;
 let offset = 0;
 let lastSearchedText = '';
 
 function showTopFiveGames(arr, callback) {
   const navbarTopGames = document.querySelector('.navbar__topGames').children;
-  for (let i = 1; i < navbarTopGames.length - 1; i += 1) {
-    navbarTopGames[i].innerHTML = `${arr[i]}`;
+  for (let i = 0; i < arr.length; i += 1) {
+    navbarTopGames[i + 1].innerText = `${arr[i]}`;
   }
   callback();
 }
@@ -25,7 +25,6 @@ function showStreamResult(streams) {
   }
   const w = resultWidth;
   const h = Math.floor(w / 16 * 9);
-  console.log('showStream.streams=', streams);
   for (const stream of Object.values(streams)) {
     let previewImgUrl = stream.preview.template;
     previewImgUrl = `${previewImgUrl.slice(0, previewImgUrl.indexOf('{'))}${w}x${h}.jpg`;
@@ -63,9 +62,14 @@ function getStreamResult(str, callback = showStreamResult) {
   lastSearchedText = str;
   let queryString = '';
   if (str) {
+    for (let i = 1; i < lis.length; i += 1) {
+      if (str === lis[i].innerText) {
+        lis[i].classList.add('active');
+        break;
+      }
+    }
     queryString = `&game=${str}`;
   }
-  console.log('query=', queryString);
   request.onload = () => {
     try {
       JSON.parse(request.response);
@@ -74,7 +78,6 @@ function getStreamResult(str, callback = showStreamResult) {
     }
     const streamResult = JSON.parse(request.response);
     const { streams } = streamResult;
-    console.log(streams);
     callback(streams, str);
   };
   request.open('GET', `${ApiEndpoint}/streams?limit=20&offset=${offset * 20}${queryString}`);
@@ -95,7 +98,6 @@ function getTopFiveGames(callback) {
     for (let i = 0; i < gameData.length; i += 1) {
       topFiveGames.push(gameData[i].game.name);
     }
-    console.log('top5=', topFiveGames);
     callback(topFiveGames, getStreamResult);
   };
   request.open('GET', `${ApiEndpoint}/games/top?limit=5`, true);
@@ -113,7 +115,6 @@ function getGameName(name, callback) {
       console.log(err);
     }
     const searchResult = JSON.parse(request.response);
-    console.log('getGameName.searchResult=', searchResult);
     if (!searchResult.games) {
       results.innerHTML = '';
       moreResultsBtn.classList.add('hide');
@@ -130,13 +131,15 @@ function getGameName(name, callback) {
 
 document.querySelector('form').addEventListener('submit', (e) => {
   offset = 0;
+  for (let i = 0; i < lis.length; i += 1) {
+    lis[i].classList.remove('active');
+  }
   getGameName(document.querySelector('.navbar__search__text').value, getStreamResult);
   e.preventDefault();
 });
 
 document.querySelector('.navbar__topGames').addEventListener('click', (e) => {
   offset = 0;
-  const lis = document.querySelector('.navbar__topGames').children;
   for (let i = 0; i < lis.length; i += 1) {
     lis[i].classList.remove('active');
   }
