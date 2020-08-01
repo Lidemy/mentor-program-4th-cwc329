@@ -73,12 +73,32 @@ h2 {
 
 .lottery__prize.show {
   opacity: 1;
-  transition: opacity 0.4s;
+  transition: all 0.4s;
+  z-index: 1;
 }
 
 .lottery__prize.hide {
-  opacity: 0;
-  height: 0;
+  display: none;
+}
+
+.lottery__prize.start > .lottery__prize--content {
+  width: 500px;
+  height: 560px;
+  border-radius: 16px;
+  line-height: 1.63em;
+  background: white;
+  color: black;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-evenly;
+  align-items: center;
+  font-size: 16px;
+}
+
+.lottery__detail.title {
+  font-size: 24px;
+  font-weight: bold;
+  color: #5ec1b6;
 }
 
 .lottery {
@@ -96,8 +116,34 @@ h2 {
   align-items: center;
 }
 
+.lottery__prize--content .lottery__detail {
+  display: flex;
+  justify-content: flex-start;
+  flex-direction: row;
+  height: auto;
+  margin: 5px;
+}
+
+.lottery__detail .lottery__detail__item {
+  width: 82px;
+  text-align-last: center;
+}
+
+.lottery__detail .lottery__detail__content {
+  width: 320px;
+}
+
+.lottery__detail ~ .lottery__detail {
+  border-bottom: solid 1px #cdcdcd;
+  padding-bottom: 20px;
+}
+
+.lottery__detail.qualification {
+  display: flex;
+}
+
 .start {
-  background: url('./imgs/lottery.jpg') center center/cover;
+  background: url('./imgs/games-bn.jpg') center center/cover;
 }
 
 .first {
@@ -136,6 +182,10 @@ h2 {
   cursor: pointer;
 }
 
+.lottery__btn:hover {
+  cursor: pointer;
+}
+
 .foooter {
   display: flex;
   flex-direction: column;
@@ -145,7 +195,7 @@ h2 {
   max-width: 1920px;
   height: 186px;
   background-color: #e8efee;
-  margin-top: 40px;
+  margin-top: 0;
 }
 
 .footer__info {
