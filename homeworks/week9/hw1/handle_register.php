@@ -1,6 +1,7 @@
 <?php
   require_once('conn.php');
-  $_POST['password'] = base64_encode($_POST['password']);
+  require_once('utils.php');
+  $_POST['password'] = hashPd($_POST['password']);
   $sql = "INSERT INTO cwc329_users (username, nickname, password) VALUE ('" . $_POST['username'] . "', '" . $_POST['nickname'] . "', '" . $_POST['password'] . "')";
   $conn->query($sql);
   if (!empty($conn->error)) {
