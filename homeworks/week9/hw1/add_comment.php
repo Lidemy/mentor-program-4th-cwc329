@@ -4,7 +4,7 @@
   require_once('utils.php');
   $id = $_SESSION['id'];
   $nickname = getUserData($id)['nickname'];
-  $comment = $_POST['comment'];
+  $comment = htmlspecialchars($_POST['comment']);
   $sql = sprintf("INSERT INTO cwc329_comments (nickname, comment) VALUE ('%s', '%s')", $nickname, $comment);
   $conn->query($sql);
   if (!empty($conn->error)) {
