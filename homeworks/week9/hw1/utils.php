@@ -7,6 +7,11 @@
     return $conn->query($sql)->fetch_assoc();
   }
 
+  function htmlEscape($str) {
+    $result = htmlspecialchars($str,ENT_QUOTES);
+    return $result;
+  }
+
   function encodeV1($str) {
     return base64_encode($str);
   }

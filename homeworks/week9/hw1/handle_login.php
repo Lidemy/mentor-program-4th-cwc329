@@ -3,7 +3,7 @@
   require_once('conn.php');
   require_once('utils.php');
   $password = encodeV1($_POST['password']);
-  $username = $_POST['username'];
+  $username = htmlEscape($_POST['username']);
   $sql = sprintf("SELECT * FROM cwc329_users WHERE username='%s'", $username);
   $result = $conn->query($sql);
   if ($conn->affected_rows === 0) {
@@ -11,7 +11,7 @@
     die();
   }
   $row = $result->fetch_assoc();
-  if ($row['id'] > 10) {
+  if ($row['id'] > 11) {
     $password = hashPd($_POST['password']);
   }
   if ($password !== $row['password']) {

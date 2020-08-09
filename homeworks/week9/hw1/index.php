@@ -50,7 +50,7 @@
       <div class="board__card__comment">
         <div class="board__card__comment__info">
           <?php echo $floor . '樓' . ' '; ?>
-          <span><?php echo $row['nickname'] ?></span><br> <?php echo $row['created_at'] ?>
+          <span><?php echo $row['nickname']; ?></span><br> <?php echo $row['created_at'] ?>
         </div>
         <div class="board__card__comment__content">
           <?php echo $row['comment'] ?>
