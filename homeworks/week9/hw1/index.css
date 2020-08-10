@@ -1,0 +1,36 @@
+.warningLine {
+  color: rgb(255, 255, 255);
+  background: rgb(220, 100, 150);
+  text-align: center;
+}
+
+.board {
+  max-width: 600px;
+  margin: 20px auto;
+}
+
+.board__adding, .board__card {
+  border-bottom: 2px solid rgba(155, 155, 155, 1);
+}
+
+.board__card {
+  display: flex;
+  padding: 10px;
+  justify-content: space-between;
+}
+
+.board__card__photo {
+  height: 50px;
+  width: 50px;
+  border-radius: 50%;
+  background: blue;
+}
+
+.board__card__comment {
+  flex: 1;
+  margin: 0 5px;
+}
+
+.board >  {
+  border-bottom: 2px solid rgba(155, 155, 155, 1);
+}
