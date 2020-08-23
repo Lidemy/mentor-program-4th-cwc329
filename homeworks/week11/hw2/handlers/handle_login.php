@@ -1,16 +1,16 @@
 <?php
-  require_once('conn.php');
-  require_once('utils.php');
+  require_once('../conn.php');
+  require_once('../utils.php');
 
   if(!empty($_SESSION['id'])) {
-    header('Location: index.php');
+    header('Location: ../index.php');
     die();
   }
 
   $username = $_POST['username'];
   $password = $_POST['password'];
   if (!(preg_match($unAndPdRegex, $username) && preg_match($unAndPdRegex, $_POST['password']))) {
-    header('Location: login.php?err=3');
+    header('Location: ../login.php?err=3');
     die();
   }
   $sql = "SELECT * FROM " . $userTable . " WHERE username=?";
@@ -25,8 +25,8 @@
     $_SESSION['id'] = $row['id'];
   } else {
     echo 'false<br>';
-    header('Location: login.php?err=1');
+    header('Location: ../login.php?err=1');
     die();
   }
-  header('Location: index.php');
+  header('Location: ../index.php');
 ?>

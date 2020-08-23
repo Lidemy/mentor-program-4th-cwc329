@@ -7,12 +7,13 @@
 
   if (!empty($_SESSION['id'])) {
     $userId = $_SESSION['id'];
-    $userType = getUserData($userId)['userType'];
+    $userData = getUserData($userId);
+    $userType = $userData['userType'];
     $isLogin = true;
   }
 
   $limit = 5;
-  $sql = "SELECT A.*, AC.category FROM " . $articleTable . " as A LEFT JOIN " . $categoryTable . " as AC ON A.categories_id=AC.id ORDER BY A.id DESC LIMIT ?" ;
+  $sql = sprintf("SELECT A.*, AC.category, AC.is_deleted AS ac_is_deleted, U.nickname FROM %s AS A LEFT JOIN %s AS AC ON A.categories_id=AC.id LEFT JOIN %s AS U ON A.author_id=U.id WHERE A.is_deleted=0 ORDER BY A.id DESC LIMIT ?", $articleTable, $categoryTable, $userTable);
     
   $stmt = $conn->prepare($sql);
   $stmt->bind_param('i', $limit);
@@ -43,13 +44,14 @@
     <section class="nav__right">
       <ul>
         <?php
-          if($isLogin) {
-            if($userType == 99 || $userType == 98) {
+          if($isLogin) { ?>
+          <li>Hi~ <? echo $userData['nickname']; ?></li>
+            <? if($userType == 99 || $userType == 98) {
         ?>
           <li><a href="add_article.php">新增文章</a></li>
           <li><a href="admin_articles.php">管理後台</a></li>
         <?php } ?>
-          <li><a href="logout.php">登出</a></li>
+          <li><a href="./handlers/logout.php">登出</a></li>
         <?php } else {?>
           <li><a href="login.php">登入</a></li>
         <?php }?>
@@ -72,20 +74,29 @@
             <?php if($userType == 99 || $userType == 98) { ?>
               <a class="main__card__top__editBtn" href="add_article.php?id=<? echo $row['id']; ?>">編輯</a>
               <?php if($userType == 99) { ?>
-                <a class="main__card__top__deleteBtn" href="delete_article.php?id=<? echo $row['id']; ?>">刪除</a>
+                <a class="main__card__top__deleteBtn" href="./handlers/delete_article.php?id=<? echo $row['id']; ?>">刪除</a>
             <?php }}?>
           </div>
         </div>
-        <div class="main__card__articleInfo"><? echo $row['created_at'] . ' ' . $row['category']; ?></div>
+        <div class="main__card__articleInfo">
+          <? echo '&#128395;&nbsp;' . $row['nickname']; ?>
+          <? echo '&nbsp;&#128345;&nbsp;' . $row['created_at'];?>
+          <?php if ($row['ac_is_deleted'] == 0) { ?>
+            <a href="categories_list.php#catId<? echo $row['categories_id']; ?>"><? echo '&nbsp;&#128193;&nbsp;' . $row['category']; ?></a>
+          <? } else {?>
+            <a href="categories_list.php#catId0">&nbsp;&#128193;&nbsp;未分類</a>
+          <? } ?>
+        </div>
         <div class="main__card__articleContent"><? echo $row['article']; ?></div>
         <div class="main__card__readmoreBtn">READ MORE</div>
       </div>
     <? }} ?>
+    <a class="checkAllArticles" href="articles.php">看所有文章</a>
   </main>
   <footer class="footer">
     <div class="footer__content">
       Copyright © 2020 cwc329's Blog All Rights Reserved.</div>
   </footer>
-  <script src="main.js"></script>
+  <script src="./js/main.js"></script>
 </body>
 </html>

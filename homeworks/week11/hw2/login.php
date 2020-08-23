@@ -52,7 +52,7 @@
         <?php if ($userType == 99) { ?>
           <li><a href="admin_articles.php">管理後台</a></li>
         <?php }} ?>
-          <li><a href="logout.php">登出</a></li>
+          <li><a href="./handlers/logout.php">登出</a></li>
         <?php } else {?>
           <li><a href="login.php">登入</a></li>
         <?php }?>
@@ -65,9 +65,9 @@
   </div>
   <main class="main">
     <div class="main__card">
-      <form class="main__loginForm" method="POST" action="handle_login.php">
+      <form class="main__loginForm" method="POST" action="./handlers/handle_login.php">
         <div class="errMsg"><? echo $errMsg ?></div>
-        <div><input type="text" name="username" placeholder="帳號" /></div>
+        <div><input type="text" name="username" placeholder="帳號" autofocus /></div>
         <div><input type="password" name="password" placeholder="密碼" /></div>
         <div><input type="submit" value="登入" /></div>
       </form>

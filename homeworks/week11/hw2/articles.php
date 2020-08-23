@@ -4,8 +4,20 @@
 
   $isSingleArticle = false;
 
+  $articlePerPage = 5;
+  $page = 1;
+  $totalArticles = $conn->query("SELECT * FROM cwc329_articles WHERE is_deleted=0")->num_rows;
+  $totalPages = ceil($totalArticles / $articlePerPage);
+
+  if (!empty($_GET['page'])) {
+    $page = intval($_GET['page']);
+  }
+
+  $offset = ($page - 1) * $articlePerPage;
+  $limitSql = sprintf(" LIMIT %s OFFSET %s", $articlePerPage, $offset);
+
   $pageTitle = "Blog - Article";
-  $sql = "SELECT A.*, AC.category FROM " . $articleTable . " as A LEFT JOIN " . $categoryTable . " as AC ON A.categories_id=AC.id";
+  $sql = sprintf("SELECT A.*, AC.category, AC.is_deleted AS ac_is_deleted,U.nickname FROM %s AS A LEFT JOIN %s AS AC ON A.categories_id=AC.id LEFT JOIN %s AS U ON A.author_id=U.id WHERE A.is_deleted=0", $articleTable, $categoryTable, $userTable);
   $orderSql = " ORDER BY A.id DESC";
   
   $isLogin = false;
@@ -13,23 +25,25 @@
 
   if (!empty($_SESSION['id'])) {
     $userId = $_SESSION['id'];
-    $userType = getUserData($userId)['userType'];
+    $userData = getUserData($userId);
+    $userType = $userData['userType'];
     $isLogin = true;
   }
   
   if(!empty($_GET['id'])) {
     $articleId = $_GET['id'];
-    $sql = $sql . " WHERE A.id = ?" . $orderSql;
+    $sql = $sql . " AND A.id = ?" . $orderSql;
     $stmt = $conn->prepare($sql);
     $stmt->bind_param('s', $articleId);
     $isSingleArticle = true;
   } else {
-    $sql = $sql . $orderSql;
+    $sql = $sql . $orderSql . $limitSql;
     $stmt = $conn->prepare($sql);
   }
   
-  $result = $stmt->execute();
+  $stmt->execute();
   $result = $stmt->get_result();
+  $articlesNum = $result->num_rows;
   if ($isSingleArticle) {
     $row = $result->fetch_assoc();
     $pageTitle = $pageTitle . " - " . $row['title'];
@@ -59,13 +73,14 @@
     <section class="nav__right">
       <ul>
       <?php
-          if($isLogin) {
-            if($userType == 99 || $userType == 98) {
+          if($isLogin) { ?>
+          <li>Hi~ <? echo $userData['nickname']; ?></li>
+            <? if($userType == 99 || $userType == 98) {
         ?>
           <li><a href="add_article.php">新增文章</a></li>
           <li><a href="admin_articles.php">管理後台</a></li>
         <?php } ?>
-          <li><a href="logout.php">登出</a></li>
+          <li><a href="./handlers/logout.php">登出</a></li>
         <?php } else {?>
           <li><a href="login.php">登入</a></li>
         <?php }?>
@@ -82,28 +97,35 @@
       if ($row['is_deleted'] == 0) {
   ?>
       <div class="main__card">
-      <div class="main__card__top">
+        <div class="main__card__top">
           <div class="main__card__top__title"><a href="articles.php?id=<? echo $row['id']; ?>"><? echo $row['title']; ?></a></div>
           <div class="main__card__top__actions"  >
             <?php if($userType == 99 || $userType == 98) { ?>
               <a class="main__card__top__editBtn" href="add_article.php?id=<? echo $row['id']; ?>">編輯</a>
               <?php if($userType == 99) { ?>
-                <a class="main__card__top__deleteBtn" href="delete_article.php?id=<? echo $row['id']; ?>">刪除</a>
+                <a class="main__card__top__deleteBtn" href="./handlers/delete_article.php?id=<? echo $row['id']; ?>">刪除</a>
             <?php }}?>
           </div>
         </div>
-        <div class="main__card__articleInfo"><? echo $row['created_at'] . ' ' . $row['category']; ?></div>
+        <div class="main__card__articleInfo">
+          <? echo '&#128395;&nbsp;' . $row['nickname']; ?>
+          <? echo '&nbsp;&#128345;&nbsp;' . $row['created_at'];?>
+          <?php if ($row['ac_is_deleted'] == 0) { ?>
+            <a href="categories_list.php#catId<? echo $row['categories_id']; ?>"><? echo '&nbsp;&#128193;&nbsp;' . $row['category']; ?></a>
+          <? } else {?>
+            <a href="categories_list.php#catId0">&nbsp;&#128193;&nbsp;未分類</a>
+          <? } ?>
+        </div>
         <div class="main__card__articleContent expand"><? echo $row['article']; ?></div>
       </div>
     <?
       } else { ?>       
-      <div class="main__card__top">
-        <div class="main__card__top__title">此文章已被刪除！</div>
-      </div> 
+        <div class="main__card__top">
+          <div class="main__card__top__title">此文章已被刪除！</div>
+        </div> 
       <? } ?>
     <? } else { 
-      while($row = $result->fetch_assoc()) { 
-        if ($row['is_deleted'] == 0) {
+      while($row = $result->fetch_assoc()) {
     ?>
       <div class="main__card">
         <div class="main__card__top">
@@ -112,22 +134,44 @@
             <?php if($userType == 99 || $userType == 98) { ?>
               <a class="main__card__top__editBtn" href="add_article.php?id=<? echo $row['id']; ?>">編輯</a>
               <?php if($userType == 99) { ?>
-                <a class="main__card__top__deleteBtn" href="delete_article.php?id=<? echo $row['id']; ?>">刪除</a>
+                <a class="main__card__top__deleteBtn" href="./handlers/delete_article.php?id=<? echo $row['id']; ?>">刪除</a>
             <?php }}?>
           </div>
         </div>
-        <div class="main__card__articleInfo"><? echo $row['created_at'] . ' ' . $row['category']; ?></div>
+        <div class="main__card__articleInfo">
+          <? echo '&#128395;&nbsp;' . $row['nickname']; ?>
+          <? echo '&nbsp;&#128345;&nbsp;' . $row['created_at'];?>
+          <?php if ($row['ac_is_deleted'] == 0) { ?>
+            <a href="categories_list.php#catId<? echo $row['categories_id']; ?>"><? echo '&nbsp;&#128193;&nbsp;' . $row['category']; ?></a>
+          <? } else {?>
+            <a href="categories_list.php#catId0">&nbsp;&#128193;&nbsp;未分類</a>
+          <? } ?>
+        </div>
         <div class="main__card__articleContent"><? echo $row['article']; ?></div>
         <div class="main__card__readmoreBtn">READ MORE</div>
       </div>
-    <?    }
-        }
-      }?>
+    <? } ?>
+      <div class="main__pageControls">
+        <div class="main__pageControls__left">
+          <?php if ($page > 1) { ?>
+            <div class="main__pageControls__first btn"><a href="articles.php?page=1">第一頁</a></div>
+            <div class="main__pageControls__previous btn"><a href="articles.php?page=<? echo ($page - 1); ?>">上一頁</a></div>
+          <? } ?>
+        </div>
+        <div class="main__pageControls__current">第 <? echo $page . ' / ' . $totalPages; ?> 頁</div>
+        <div class="main__pageControls__right">
+          <?php if ($page < $totalPages) { ?>
+            <div class="main__pageControls__next btn"><a href="articles.php?page=<? echo ($page + 1); ?>">下一頁</a></div>
+            <div class="main__pageControls__last btn"><a href="articles.php?page=<? echo ($totalPages); ?>">最後一頁</a></div>
+          <?php } ?>
+        </div>
+      </div>
+    <? } ?>
   </main>
   <footer class="footer">
     <div class="footer__content">
       Copyright © 2020 cwc329's Blog All Rights Reserved.</div>
   </footer>
-  <script src="main.js"></script>
+  <script src="./js/main.js"></script>
 </body>
 </html>

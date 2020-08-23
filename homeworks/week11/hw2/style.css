@@ -44,7 +44,7 @@ nav section ul li {
   line-height: 1em;
 }
 
-.addArticle__form {
+.addArticle__form, .addCat__form {
   margin: 0 auto;
   padding: 20px;
   border: 1px solid #a8a8a8;
@@ -60,6 +60,17 @@ input[type=text], select{
   box-sizing: border-box;
 }
 
+.main {
+  max-width: 920px;
+  min-height: calc(100vh - 241px - 79px - 50px - 35px);
+  position: relative;
+  top: -50px;
+  margin: 0 auto;
+  box-sizing: border-box;
+  background: white;
+  padding: 10px;
+}
+
 .main__loginForm {
   display: flex;
   flex-direction: column;
@@ -72,16 +83,6 @@ input[type=text], select{
   height: auto;
   width: auto;
   line-height: 2rem;
-}
-
-.main {
-  max-width: 920px;
-  position: relative;
-  top: -50px;
-  margin: 0 auto;
-  box-sizing: border-box;
-  background: white;
-  padding: 10px;
 }
 
 .main__card {
@@ -108,7 +109,11 @@ input[type=text], select{
   margin-bottom: 20px;
 }
 
-.main__card__readmoreBtn, .main__card__top__editBtn, .addArticle__form__submitBtn, .main__card__top__deleteBtn{
+.main__card__articleInfo > a {
+  color: #8f8f8f;
+}
+
+.main__card__readmoreBtn, .main__card__top__editBtn, .addArticle__form__submitBtn, .main__card__top__deleteBtn, .btn{
   text-decoration: none;
   display: inline-block;
   border: solid 1px #a8a8a8;
@@ -117,17 +122,68 @@ input[type=text], select{
   padding: 6px 10px;
 }
 
-.main__card__articleContent {
+.main__card__articleContent, .main__card__categoriesContent {
   max-height: 10.2rem;
-  text-overflow: ellipsis;
   margin-bottom: 20px;
+  overflow-wrap: break-word;
   overflow: hidden;
   color: #000000;
 }
 
-.main__card__articleContent.expand {
+.expand {
   max-height: none;
 }
+
+.main__card__categoriesContent {
+  line-height: 2em;
+}
+
+.main__card__categoriesContent a{
+  font-size: 20px;
+  text-decoration: none;
+  color: black;
+}
+
+.main__card__categoriesContent > div {
+  display: flex;
+  justify-content: space-between;
+}
+
+.main__pageControls {
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  margin: 0 auto;
+}
+
+.main__pageControls a {
+  text-decoration: none;
+  color: #a8a8a8;
+}
+
+.main__pageControls .btn {
+  width: 64px;
+  text-align: center;
+}
+
+.main__pageControls__right, .main__pageControls__left {
+  width: 178px;
+}
+
+.checkAllArticles {
+  text-decoration: none;
+  display: block;
+  margin: 0 auto;
+  color: #a8a8a8;
+  border: 1px solid #9a9a9a;
+  font-size: 24px;
+  width: 100%;
+  text-align: center;
+  padding: 6px 0px;
+  cursor: pointer;
+}
+
+
 
 .footer {
   height: 35px;

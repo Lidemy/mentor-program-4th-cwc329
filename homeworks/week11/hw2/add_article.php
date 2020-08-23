@@ -1,17 +1,9 @@
 <?php
   require_once('conn.php');
   require_once('utils.php');
-
-  if (empty($_SESSION['id'])) {
-    header('Location: login.php');
-    die();
-  }
+  require_once('admin_verify.php');
   
   $userType = getUserData($_SESSION['id'])['userType'];
-  if (!($userType == 99 || $userType == 98)) {
-    header('Location: index.php');
-    die();
-  }
 
   $isEditing = false;
   $editArticleId = Null;
@@ -19,13 +11,13 @@
   if (!empty($_GET['id'])) {
     $editArticleId = $_GET['id'];
     $isEditing = true;
-    $editArticleSql = "SELECT * FROM " . $articleTable . " WHERE id = ?";
+    $editArticleSql = sprintf("SELECT * FROM %s WHERE id = ?", $articleTable);
     $editStmt = $conn->prepare($editArticleSql);
     $editStmt->bind_param('s', $editArticleId);
     $editStmt->execute();
     $editArticle = $editStmt->get_result()->fetch_assoc();
   }
-  $catSql = "SELECT * FROM " . $categoryTable;
+  $catSql = sprintf("SELECT * FROM %s WHERE is_deleted = 0 AND NOT id = 0", $categoryTable);
   $catStmt = $conn->prepare($catSql);
   $catStmt->execute();
   $catResult = $catStmt->get_result();
@@ -56,7 +48,7 @@
       <ul>
         <li><a href="add_article.php">新增文章</a></li>
         <li><a href="admin_articles.php">管理後台</a></li>
-        <li><a href="logout.php">登出</a></li>
+        <li><a href="./handlers/logout.php">登出</a></li>
       </ul>
     </section>
   </nav>
@@ -65,8 +57,8 @@
     <p class="banner__desc">無病呻吟</p>
   </div>
   <main class="main">
-    <form method="POST" action="handle_add_article.php" class="addArticle__form">
-      <div>Title: <input id="articleTitle" type="text" name="title" placeholder="請輸入文章標題" value="<? if($editArticleId) {echo $editArticle['title'];} ?>"></div>
+    <form method="POST" action="./handlers/handle_add_article.php" class="addArticle__form">
+      <div>Title: <input id="articleTitle" type="text" name="title" placeholder="請輸入文章標題" value="<? if($editArticleId) {echo $editArticle['title'];} ?>" autofocus></div>
       <div>
         Caterogy: 
         <select name="category" placeholder="請選擇文章分類">
@@ -77,6 +69,7 @@
         </select></div>
       <div>Article: <textarea id="articleEditor" name="article" ><?php if($editArticleId) {echo $editArticle['article'];} ?></textarea></div>
       <input type="hidden" name="article_id" value="<? if($editArticleId) {echo $editArticle['id'];} ?>" />
+      <input type="hidden" name="author_id" value="<? if($editArticleId) {echo $editArticle['author_id'];} else {echo $_SESSION['id'];} ?>" />
       <div><input type="submit" value="發布文章" class="addArticle__form__submitBtn" />
     </form>
   </main>
