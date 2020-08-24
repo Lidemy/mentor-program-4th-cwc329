@@ -3,9 +3,6 @@
   require_once('utils.php');
   require_once('admin_verify.php');
 
-  $userData = getUserData($_SESSION['id']);
-  $userType = $userData['userType'];
-
   $sql = sprintf("SELECT A.*, AC.category, U.nickname FROM %s AS A LEFT JOIN %s AS AC ON A.categories_id=AC.id LEFT JOIN %s AS U ON A.author_id=U.id ORDER BY A.id DESC", $articleTable, $categoryTable, $userTable);
   $stmt = $conn->prepare($sql);
   $result = $stmt->execute();

@@ -3,9 +3,6 @@
   require_once('utils.php');
   require_once('admin_verify.php');
 
-  $userData = getUserData($_SESSION['id']);
-  $userType = $userData['userType'];
-
   $sql = sprintf("SELECT * FROM %s WHERE NOT id=0", $categoryTable);
   $stmt = $conn->prepare($sql);
   $result = $stmt->execute();

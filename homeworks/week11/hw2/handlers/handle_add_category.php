@@ -1,20 +1,10 @@
 <?php
   require_once('../conn.php');
   require_once('../utils.php');
-  
-  if (empty($_SESSION['id'])) {
-    header('Location: ../login.php');
-    die();
-  }
+  require_once('../admin_verify.php');
   
   if (empty($_POST['category'])) {
     header('Location: ../add_category.php');
-    die();
-  }
-
-  $userType = getUserData($_SESSION['id'])['userType'];
-  if ($userType != 99 && $userType != 98) {
-    header('Location: ../login.php');
     die();
   }
 

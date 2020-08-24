@@ -80,7 +80,9 @@
           <div class="inline_block userType"><? echo 'userType' ?></div>
     <?php
       $sql = "SELECT * FROM " . $userTable;
-      $result = $conn->query($sql);
+      $stmt = $conn->prepare($sql);
+      $stmt->execute();
+      $result = $stmt->get_result();
       while ($row = $result->fetch_assoc()) {
     ?>
       <form class="admin__changeUserProfile" method="POST" action="admin__change__profile.php">

@@ -10,7 +10,12 @@
 
   function verifyUser($id) {
     global $conn;
-    $result = $conn->query("SELECT username FROM cwc329_users WHERE id=" . $id);
+    global $userTable;
+    $sql = sprintf("SELECT username FROM %s WHERE id = ?", $userTable);
+    $stmt = $conn->prepare($sql);
+    $stmt->bind_param('i', $id);
+    $stmt->execute();
+    $result = $stmt->get_result();
     if($result->num_rows === 0) {
       return false;
     }

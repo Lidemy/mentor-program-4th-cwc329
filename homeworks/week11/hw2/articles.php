@@ -6,7 +6,12 @@
 
   $articlePerPage = 5;
   $page = 1;
-  $totalArticles = $conn->query("SELECT * FROM cwc329_articles WHERE is_deleted=0")->num_rows;
+  
+  $totalArticlesSql = "SELECT * FROM cwc329_articles WHERE is_deleted=0";
+  $totalArticlesStmt = $conn->prepare($totalArticlesSql);
+  $totalArticlesStmt->execute();
+  $totalArticlesResult = $totalArticlesStmt->get_result();
+  $totalArticles = $totalArticlesResult->num_rows;
   $totalPages = ceil($totalArticles / $articlePerPage);
 
   if (!empty($_GET['page'])) {

@@ -2,8 +2,6 @@
   require_once('conn.php');
   require_once('utils.php');
   require_once('admin_verify.php');
-  
-  $userType = getUserData($_SESSION['id'])['userType'];
 
   $isEditing = false;
   $editArticleId = Null;
