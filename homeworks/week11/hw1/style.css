@@ -24,12 +24,6 @@ main {
   opacity: 0;
 }
 
-.admin__userTypeTable {
-  border: 1px solid rgb(150, 250, 60);
-  width: 150px;
-  border-collapse: collapse;
-}
-
 .inline_block {
   display: inline-block;
   box-sizing: border-box;

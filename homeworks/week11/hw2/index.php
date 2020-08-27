@@ -45,7 +45,7 @@
       <ul>
         <?php
           if($isLogin) { ?>
-          <li>Hi~ <? echo $userData['nickname']; ?></li>
+          <li>Hi~ <? echo htmlEscape($userData['nickname']); ?></li>
             <? if($userType == 99 || $userType == 98) {
         ?>
           <li><a href="add_article.php">新增文章</a></li>
@@ -69,7 +69,7 @@
     ?>
       <div class="main__card">
         <div class="main__card__top">
-          <div class="main__card__top__title"><a href="articles.php?id=<? echo $row['id']; ?>"><? echo $row['title']; ?></a></div>
+          <div class="main__card__top__title"><a href="articles.php?id=<? echo $row['id']; ?>"><? echo htmlEscape($row['title']); ?></a></div>
           <div class="main__card__top__actions"  >
             <?php if($userType == 99 || $userType == 98) { ?>
               <a class="main__card__top__editBtn" href="add_article.php?id=<? echo $row['id']; ?>">編輯</a>
@@ -79,10 +79,10 @@
           </div>
         </div>
         <div class="main__card__articleInfo">
-          <? echo '&#128395;&nbsp;' . $row['nickname']; ?>
+          <? echo '&#128395;&nbsp;' . htmlEscape($row['nickname']); ?>
           <? echo '&nbsp;&#128345;&nbsp;' . $row['created_at'];?>
           <?php if ($row['ac_is_deleted'] == 0) { ?>
-            <a href="categories_list.php#catId<? echo $row['categories_id']; ?>"><? echo '&nbsp;&#128193;&nbsp;' . $row['category']; ?></a>
+            <a href="categories_list.php#catId<? echo $row['categories_id']; ?>"><? echo '&nbsp;&#128193;&nbsp;' . htmlEscape($row['category']); ?></a>
           <? } else {?>
             <a href="categories_list.php#catId0">&nbsp;&#128193;&nbsp;未分類</a>
           <? } ?>

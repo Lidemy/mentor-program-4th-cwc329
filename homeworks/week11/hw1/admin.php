@@ -88,8 +88,8 @@
       <form class="admin__changeUserProfile" method="POST" action="admin__change__profile.php">
         <div class="admin__changeUserProfile__userProfile">
           <div class="inline_block id"><? echo $row['id']; ?><input type="hidden" name="id" value=<? echo $row['id']; ?>></div>
-          <div class="inline_block username"><? echo $row['username']; ?></div>
-          <div class="inline_block nickname"><? echo $row['nickname']; ?></div>
+          <div class="inline_block username"><? echo htmlEscape($row['username']); ?></div>
+          <div class="inline_block nickname"><? echo htmlEscape($row['nickname']); ?></div>
           <div class="inline_block groupNo">
             <select name="groupNo">
               <?php

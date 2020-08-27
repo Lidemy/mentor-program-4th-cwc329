@@ -48,7 +48,7 @@
       <ul>
         <?php
           if($isLogin) { ?>
-          <li>Hi~ <? echo $userData['nickname']; ?></li>
+          <li>Hi~ <? echo htmlEscape($userData['nickname']); ?></li>
             <? if($userType == 99 || $userType == 98) {
         ?>
           <li><a href="add_article.php">新增文章</a></li>
@@ -75,15 +75,15 @@
   ?>
     <div class="main__card" id="catId<? echo $key; ?>">
       <div class="main__card__top">
-        <div class="main__card__top__title" ><? echo $value; ?></div>
+        <div class="main__card__top__title" ><? echo htmlEscape($value); ?></div>
         <div class="main__card__top__actions"></div>
       </div>
       <div class="main__card__articleInfo"><? echo "總共有 " . $result->num_rows . " 篇文章"; ?></div>
       <div class="main__card__categoriesContent expand">
         <? while ($row = $result->fetch_assoc()) {?>
           <div>
-            <a href="articles.php?id=<? echo $row['id']; ?>"><? echo $row['title']; ?></a>
-            <span><? echo '&#128395;&nbsp;' . $row['nickname']; ?><? echo '&nbsp;&#128345;&nbsp;' . $row['created_at'];?></sapn>
+            <a href="articles.php?id=<? echo $row['id']; ?>"><? echo htmlEscape($row['title']); ?></a>
+            <span><? echo '&#128395;&nbsp;' . htmlEscape($row['nickname']); ?><? echo '&nbsp;&#128345;&nbsp;' . $row['created_at'];?></sapn>
         </div>
         <? } ?>
       </div>
@@ -104,8 +104,8 @@
       <div class="main__card__categoriesContent expand">
           <?php while($row = $result->fetch_assoc()) { ?>
             <div>
-              <a href="articles.php?id=<? echo $row['id']; ?>"><? echo $row['title']; ?></a>
-              <span><? echo '&#128395;&nbsp;' . $row['nickname']; ?><? echo '&nbsp;&#128345;&nbsp;' . $row['created_at'];?></sapn>
+              <a href="articles.php?id=<? echo $row['id']; ?>"><? echo htmlEscape($row['title']); ?></a>
+              <span><? echo '&#128395;&nbsp;' . htmlEscape($row['nickname']); ?><? echo '&nbsp;&#128345;&nbsp;' . $row['created_at'];?></sapn>
             </div>
           <? } ?>
       </div>

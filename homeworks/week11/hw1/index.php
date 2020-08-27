@@ -8,7 +8,9 @@
   if(!empty($_GET['err'])) {
     if ($_GET['err'] === '5') {
       $errMsg = '&gt; Error: invalid inputs.';
-    }else{
+    } else if ($_GET['err'] === '2') {
+      $errMsg = '&gt; Error: you are banned.';
+    } else {
       $errMsg = '&gt; Error: something went wrong.<br>You were forced logged out.';
     }
   }

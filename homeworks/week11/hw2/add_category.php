@@ -52,7 +52,7 @@
   </div>
   <main class="main">
     <form method="POST" action="./handlers/handle_add_category.php" class="addCat__form">
-      <div>Category Name: <input id="cat" type="text" name="category" placeholder="請輸入分類名稱" value="<? if($editCatId) {echo $editCat['category'];} ?>" autofocus></div>
+      <div>Category Name: <input id="cat" type="text" name="category" placeholder="請輸入分類名稱" value="<? if($editCatId) {echo htmlEscape($editCat['category']);} ?>" autofocus></div>
       <input type="hidden" name="category_id" value="<? if($editCatId) {echo $editCat['id'];} ?>" />
       <div><input type="submit" value="送出" class="addCat__form__submitBtn" />
     </form>

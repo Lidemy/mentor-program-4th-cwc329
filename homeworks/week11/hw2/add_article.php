@@ -56,13 +56,13 @@
   </div>
   <main class="main">
     <form method="POST" action="./handlers/handle_add_article.php" class="addArticle__form">
-      <div>Title: <input id="articleTitle" type="text" name="title" placeholder="請輸入文章標題" value="<? if($editArticleId) {echo $editArticle['title'];} ?>" autofocus></div>
+      <div>Title: <input id="articleTitle" type="text" name="title" placeholder="請輸入文章標題" value="<? if($editArticleId) {echo htmlEscape($editArticle['title']);} ?>" autofocus></div>
       <div>
         Caterogy: 
         <select name="category" placeholder="請選擇文章分類">
           <option value="" <? if(!$isEditing){echo " selected";} ?>>選擇文章分類</option>
           <?php while($cat = $catResult->fetch_assoc()) { ?>
-            <option value="<? echo $cat['id']; ?>" <? if($isEditing && $editArticle['categories_id'] == $cat['id']){echo " selected";} ?>><? echo $cat['category']; ?></option>
+            <option value="<? echo $cat['id']; ?>" <? if($isEditing && $editArticle['categories_id'] == $cat['id']){echo " selected";} ?>><? echo htmlEscape($cat['category']); ?></option>
           <?php } ?>
         </select></div>
       <div>Article: <textarea id="articleEditor" name="article" ><?php if($editArticleId) {echo $editArticle['article'];} ?></textarea></div>
@@ -76,6 +76,6 @@
       Copyright © 2020 cwc329's Blog All Rights Reserved.</div>
   </footer>
   <script>
-    CKEDITOR.replace('articleEditor',{removePlugins: 'sourcearea',});
+    CKEDITOR.replace('articleEditor'/*,{removePlugins: 'sourcearea',}*/);
   </script>
 </body>

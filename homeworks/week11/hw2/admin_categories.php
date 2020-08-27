@@ -32,7 +32,7 @@
     </section>
     <section class="nav__right">
       <ul>
-        <li>Hi~ <? echo $userData['nickname']; ?></li>
+        <li>Hi~ <? echo htmlEscape($userData['nickname']); ?></li>
         <li><a href="add_article.php">新增文章</a></li>
         <li><a href="admin_articles.php">管理後台</a></li>
         <li><a href="./handlers/logout.php">登出</a></li>
@@ -57,7 +57,7 @@
     <?php while($row = $result->fetch_assoc()) { ?>
       <div class="main__card">
         <div class="main__card__top">
-          <div class="main__card__top__title"><? echo $row['category']; ?></div>
+          <div class="main__card__top__title"><? echo htmlEscape($row['category']); ?></div>
           <div class="main__card__top__actions"  >          
             <?php if($userType == 99 || $userType == 98) { ?>
               <a class="main__card__top__editBtn" href="add_category.php?id=<? echo $row['id']; ?>">編輯</a>

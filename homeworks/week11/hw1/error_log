@@ -10,3 +10,13 @@
 [14-Aug-2020 05:58:17 UTC] PHP Warning:  Wrong parameter count for mysqli_stmt::bind_param() in /home/gk0bzeoh7dod/public_html/mtr04group6/cwc329/bulletin/V1_1_0/index.php on line 5
 [14-Aug-2020 05:58:44 UTC] PHP Warning:  Wrong parameter count for mysqli_stmt::bind_param() in /home/gk0bzeoh7dod/public_html/mtr04group6/cwc329/bulletin/V1_1_0/index.php on line 5
 [14-Aug-2020 06:03:13 UTC] PHP Warning:  Wrong parameter count for mysqli_stmt::bind_param() in /home/gk0bzeoh7dod/public_html/mtr04group6/cwc329/bulletin/V1_1_0/index.php on line 5
+[24-Aug-2020 09:06:48 UTC] PHP Fatal error:  Uncaught Error: Call to undefined method mysqli::prepaer() in /home/gk0bzeoh7dod/public_html/mtr04group6/cwc329/bulletin/V1_1_0/utils.php:15
+Stack trace:
+#0 /home/gk0bzeoh7dod/public_html/mtr04group6/cwc329/bulletin/V1_1_0/index.php(18): verifyUser(52)
+#1 {main}
+  thrown in /home/gk0bzeoh7dod/public_html/mtr04group6/cwc329/bulletin/V1_1_0/utils.php on line 15
+[24-Aug-2020 09:08:07 UTC] PHP Fatal error:  Uncaught Error: Call to undefined method mysqli::prepaer() in /home/gk0bzeoh7dod/public_html/mtr04group6/cwc329/bulletin/V1_1_0/utils.php:15
+Stack trace:
+#0 /home/gk0bzeoh7dod/public_html/mtr04group6/cwc329/bulletin/V1_1_0/index.php(18): verifyUser(52)
+#1 {main}
+  thrown in /home/gk0bzeoh7dod/public_html/mtr04group6/cwc329/bulletin/V1_1_0/utils.php on line 15
