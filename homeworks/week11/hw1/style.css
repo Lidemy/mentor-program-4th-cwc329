@@ -1,0 +1,152 @@
+body {
+  background: black;
+  color: rgb(150, 250, 60);
+  font-family: monospace;
+  font-size: 18px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 20px;
+  line-height: 1.5rem;
+}
+
+main {
+  width: 680px;
+}
+
+.board__addComment__form {
+  display: flex;
+  flex-direction: column;
+  margin-top: 20px;
+}
+
+.hide {
+  opacity: 0;
+}
+
+.inline_block {
+  display: inline-block;
+  box-sizing: border-box;
+  margin: 0 auto;
+}
+
+.inline_block.id {
+  width: 50px;
+}
+
+.inline_block.username, .inline_block.nickname {
+  width: 140px;
+}
+
+.inline_block.groupNo, .inline_block.userType {
+  width: 80px;
+}
+
+.board__sec1 {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+}
+
+a {
+  text-decoration: none;
+  color: rgb(150, 250, 60);
+}
+
+input, option, select {
+  background: rgba(0, 0, 0, 0);
+  color: rgb(150, 250, 60);
+  box-shadow: none;
+  border: none;
+  text-align: left;
+  padding: 0;
+}
+
+input:not([type=submit]) {
+  border-bottom: solid 1px rgb(150, 250, 60);
+}
+
+::placeholder {
+  color: rgb(150, 250, 60);
+}
+
+.warningLine {
+  font-weight: bold;
+  font-size: 20px;
+  filter: brightness(1.5);
+}
+
+.board__editNicknameBtn:hover {
+  cursor: pointer;
+}
+
+.board__addComment {
+  margin-bottom: 40px;
+}
+
+.board__addComment__form__comment {
+  resize: none;
+  background: black;
+  border: none;
+  width: 100%;
+  border-bottom: 3px solid rgb(150, 250, 60);
+  color: rgb(150, 250, 60);
+  overflow: hidden;
+  padding: 0;
+}
+
+.board__addComment__form__comment:focus, input:focus, input:-webkit-autofill,
+input:-webkit-autofill:hover, 
+input:-webkit-autofill:focus,
+textarea:-webkit-autofill,
+textarea:-webkit-autofill:hover,
+textarea:-webkit-autofill:focus,
+select:-webkit-autofill,
+select:-webkit-autofill:hover,
+select:-webkit-autofill:focus {
+  background: black;
+  outline: none;
+  -webkit-text-fill-color:rgb(150, 250, 60);
+  -webkit-box-shadow: 0 0 0px 1000px #000 inset;
+}
+
+.board__addComment__form__submit {
+  text-decoration: none;
+  background-color: black;
+  color: rgb(150, 250, 60);
+  border: none;
+  box-shadow: none;
+}
+
+
+.board__addComment__form__submit:hover, .login__form__submit:hover, input[type=submit]:hover {
+  cursor: pointer;
+}
+
+.board__pleaseLogin {
+  font-size: 2rem;
+  font-weight: bold;
+  margin:50px 0;
+}
+
+.board__bulletin__card__top {
+  display: flex;
+  justify-content: space-between;
+}
+
+.board__bulletin__card__actions {
+  display: flex;
+}
+
+.board__bulletin__card__comment {
+  overflow-wrap: break-word;
+  min-height: 30px;
+}
+
+.board__bulletin__card__time {
+  text-align: right;
+}
+
+.board__bulletin__card {
+  margin-top: 40px;
+}
