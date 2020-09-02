@@ -7,7 +7,7 @@
   }
   switch ($method) {
     case "GET":
-      echo getComments();
+      echo getComments($id);
       break;
     case "POST":
       if ($id) {
@@ -21,10 +21,16 @@
       break;
   }
 
-  function getComments() {
+  function getComments($id) {
     global $commentTable;
-    $sql = sprintf("SELECT * FROM %s WHERE is_deleted = ? order by id desc", $commentTable);
-    $result = prepareStatement($sql, 's', '0');
+    if ($id) {
+      $commentId = intval($id);
+      $sql = sprintf("SELECT * FROM %s WHERE id = ? AND is_deleted = 0", $commentTable);
+      $result = prepareStatement($sql, 'i', $commentId);
+    } else {
+      $sql = sprintf("SELECT * FROM %s WHERE is_deleted = 0 order by id desc", $commentTable);
+      $result = prepareStatement($sql);
+    }
     $comments = array();
     while ($row = $result->fetch_assoc()) {
       array_push($comments, $row);
