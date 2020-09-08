@@ -16,8 +16,8 @@
         $nickname = trim($_POST['nickname']);
         $username = trim($_POST['username']);
         $password = $_POST['password'];
-        $group = $_POST['group'];
-        register($username, $password, $nickname, $group);
+        $group = $_POST['groupNo'];
+        var_dump(register($username, $password, $nickname, $group));
       }
       break;
     case "DELETE":
@@ -40,12 +40,13 @@
   function register($username, $password, $nickname, $group) {
     global $userTable, $unAndPdRegex;
     if (!(preg_match($unAndPdRegex, $username) && preg_match($unAndPdRegex, $password) && preg_match("/^[1-6]$/", $group))) {
-      return;
+      return 'fail';
     }
     $sql = sprintf("INSERT INTO %s (nickname, groupNo, username, password) VALUES(?, ?, ?, ?)", $userTable);
     $group = intval($group);
     $password = password_hash($password, PASSWORD_DEFAULT);
     $result = prepareStatement($sql, 'siss', $nickname, $group, $username, $password);
+    return json_encode($result);
   }
 
   function changeProfile($id, $arr) {

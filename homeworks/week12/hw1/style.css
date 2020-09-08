@@ -21,7 +21,7 @@ main {
 }
 
 .hide {
-  opacity: 0;
+  display: none;
 }
 
 .admin__userTypeTable {
@@ -57,6 +57,7 @@ main {
 a {
   text-decoration: none;
   color: rgb(150, 250, 60);
+  cursor: pointer;
 }
 
 input, option, select {
@@ -74,6 +75,10 @@ input:not([type=submit]) {
 
 ::placeholder {
   color: rgb(150, 250, 60);
+}
+
+.board__actions {
+  display: flex;
 }
 
 .warningLine {

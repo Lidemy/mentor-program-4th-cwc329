@@ -40,6 +40,9 @@
       $stmt->bind_param($type, ...$params);
     }
     $stmt->execute();
+    if (!empty($stmt->error)) {
+      return $stmt->error;
+    }
     return ($stmt->get_result());
   }
 ?>
