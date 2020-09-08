@@ -5,7 +5,7 @@
 /* eslint prefer-destructuring: 0 */
 const limit = 5;
 let offset = 0;
-const apiUrl = 'http://localhost:8080/cwc329/bulletin_V1_2_0/API/';
+const apiUrl = 'http://mentor-program.co/mtr04group6/cwc329/bulletin/V1_2_0/API/';
 const userApi = 'users.php';
 const commentApi = 'comments.php';
 const membershipApi = 'membership.php';
@@ -29,11 +29,11 @@ const comment = {
         });
     },
   post:
-    (cb, newComment, userId) => {
+    (cb, comment, userId) => {
       $.post(
         apiUrl + commentApi,
         {
-          newComment,
+          comment,
           userId,
         },
       ).done((data) => {
@@ -43,17 +43,17 @@ const comment = {
       });
     },
   edit:
-    (cb = null, commentId, userId) => {
+    (cb = null, commentId, userId, newComment) => {
       const queryString = `?id=${commentId}`;
       $.post(
         apiUrl + commentApi + queryString,
         {
-          comment,
+          comment: newComment,
           userId,
         },
-      ).done(() => {
+      ).done((data) => {
         if (cb) {
-          cb();
+          cb(data);
         }
       });
     },
@@ -64,16 +64,13 @@ const comment = {
         {
           url: apiUrl + commentApi + queryString,
           method: 'DELETE',
+          success: cb(),
         },
-      ).done(() => {
-        if (cb) {
-          cb();
-        }
-      });
+      );
     },
 };
 
-function pageInit(data, cb = comment.get) {
+function pageInit(data = [userData], cb = comment.get) {
   offset = 0;
   $('.board__bulletin').text('');
   $('#registerBtn').hide();
@@ -142,14 +139,17 @@ const user = {
       });
     },
   changeProfile:
-    (userId, nickname) => {
+    (cb, nickname) => {
       $.post(
-        apiUrl + userApi,
+        `${apiUrl + userApi}?id=${userId}`,
         {
           nickname,
-          userId,
         },
-      );
+      ).done((data) => {
+        if (cb) {
+          cb();
+        }
+      });
     },
   login:
     (username, password, cb) => {
@@ -212,6 +212,7 @@ function showComments(data, method = 'append') {
             <form class="board__bulletin__card__editCommentform $postId hide" method="POST" action="API/comments.php?id=$postId">
               <input type="hidden" name="user_id" value=$userId />
               <input type="hidden" name="post_id" value=$postId />
+              <input type="hidden" name="comment" class="$postId" value="$comment" />
               <input type="submit" value="&gt; Edit" />
             </form>
             &nbsp;
@@ -222,7 +223,7 @@ function showComments(data, method = 'append') {
             </form>
           </div>
         </div>
-        <p class="board__bulletin__card__comment">
+        <p class="board__bulletin__card__comment $postId">
           $comment
         </p>
         <div class="board__bulletin__card__time">
@@ -235,7 +236,7 @@ function showComments(data, method = 'append') {
       .replace('$nickname', escapeHtml(e.nickname))
       .replaceAll('$postId', String(e.id))
       .replaceAll('$userId', String(e.user_id))
-      .replace('$comment', escapeHtml(e.comment))
+      .replaceAll('$comment', escapeHtml(e.comment))
       .replace('$created_at', escapeHtml(e.created_at));
     if (method === 'append') {
       $('.board__bulletin').append(commentCard);
@@ -251,7 +252,7 @@ function showComments(data, method = 'append') {
       }
     }
   });
-  if (data.length < 5) {
+  if (data.length < 5 && method === 'append') {
     $('.board__loadMoreBtn').hide();
   }
 }

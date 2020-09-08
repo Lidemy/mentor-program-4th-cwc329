@@ -73,7 +73,7 @@
     $comment = $_POST['comment'];
     $postId = intval($commentId);
     if (!((verifyUser($userId) && $userId == $_POST['userId']) || $user_type == 99 || $user_type == 98)) {
-      return;
+      return 'you shall not pass';
     }
     $sql = sprintf("UPDATE %s SET comment = ? WHERE id = ?", $commentTable);
     $result = prepareStatement($sql, 'si', $comment, $postId);

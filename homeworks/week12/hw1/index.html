@@ -23,7 +23,7 @@
         <div class="board__pleaseLogin">
         </div>
         <div class="board__editNickname hide">
-          <form class="board__editNickname__form" method="POST" action="change_profile.php">
+          <form class="board__editNickname__form" method="POST" >
             <div class="board__editNickname__form__">New Nickname &gt;</div>
             <div><input type="text" class="board__editNickname__form__input" name="nickname" required/></div>
             <div><input class="board__editNickname__form__submit" type="submit" value="&gt; return" /></div>
@@ -51,6 +51,16 @@
             <textarea rows="1" class="board__addComment__form__comment" name="comment" autofocus required></textarea>
             <div><input class="board__addComment__form__submit" type="submit" value="&gt; return" /></div>
           </form>
+        </div>
+        <div class="board__editComment hide">
+          <form class="board__editComment__form" method="POST">
+            <div class="board__editComment__form__info"></div>
+            <textarea rows="1" class="board__editComment__form__comment" name="comment" autofocus required></textarea>
+            <input class="board__editComment__form__userId" type="hidden" name="userId"/>
+            <input class="board__editComment__form__postId" type="hidden" name="postId"/>
+            <div><input class="board__editComment__form__submit" type="submit" value="&gt; return" /></div>
+          </form>
+          <a class="board__editComment__form__cancel">&gt; Cancel</a>
         </div>
     <secion class="board__sec2">
       <div class="board__bulletin">

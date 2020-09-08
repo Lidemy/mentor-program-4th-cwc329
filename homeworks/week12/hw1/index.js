@@ -1,4 +1,6 @@
 /* eslint no-undef: 0 */
+/* eslint no-shadow: 0 */
+/* eslint no-restricted-syntax: 0 */
 user.checkLogStatus(pageInit);
 
 $('.board__loadMoreBtn').click(() => {
@@ -9,6 +11,11 @@ $('#loginBtn').click(() => {
   $('.board__register').hide(500);
   $('.board__login').toggle(500);
   $('.login__form__username').focus();
+});
+
+$('#editNicknameBtn').click(() => {
+  $('.board__editNickname').toggle(500);
+  $('.board__editNickname__form__input').focus();
 });
 
 $('#registerBtn').click(() => {
@@ -63,12 +70,80 @@ $('.register__form').submit((e) => {
   });
 });
 
+$('.board__editNickname__form').submit((e) => {
+  e.preventDefault();
+  const newNickname = $('.board__editNickname__form__input').val();
+  user.changeProfile(() => {
+    user.checkLogStatus(pageInit);
+    $('.board__editNickname__form__input').val('');
+  }, newNickname);
+});
+
 $('.board__addComment__form').submit((e) => {
   e.preventDefault();
   const newComment = $('.board__addComment__form__comment').val();
   comment.post(() => {
     comment.get((data) => {
-      insertNewComment(data);
+      showComments(data, 'prepend');
+      $('.board__addComment__form__comment').val('');
+      offset += 1;
     }, null, 1, 0);
   }, newComment, userId);
+});
+
+$('.board__bulletin').submit((e) => {
+  function getFormInputs(e) {
+    const { children } = e.target;
+    const result = {};
+    for (const input of children) {
+      const { name, defaultValue } = input;
+      result[name] = defaultValue;
+    }
+    return result;
+  }
+  let inputs;
+  e.preventDefault();
+  if ($(e.target).hasClass('board__bulletin__card__deleteCommentform')) {
+    inputs = getFormInputs(e);
+    comment.delete(() => {
+      $(e.target.closest('.board__bulletin__card')).hide(500);
+    }, inputs.post_id);
+  } else if ($(e.target).hasClass('board__bulletin__card__editCommentform')) {
+    inputs = getFormInputs(e);
+    const commentInfo = $($(e.target).closest('.board__bulletin__card__top').children()[0]).text();
+    $('.board__editComment').show();
+    $('.board__addComment').hide(500);
+    $('.board__editComment__form__info').text(`${commentInfo.trim()} > Editing`);
+    $('.board__editComment__form__comment').val(inputs.comment.trim());
+    $('.board__editComment__form__userId').val(inputs.user_id);
+    $('.board__editComment__form__postId').val(inputs.post_id);
+    $('.board__editComment__form__comment').focus();
+  }
+});
+
+$('.board__editComment__form').submit((e) => {
+  e.preventDefault();
+  const newComment = $('.board__editComment__form__comment').val();
+  const pId = $('.board__editComment__form__postId').val();
+  comment.edit(() => {
+    comment.get((data) => {
+      $(`.board__bulletin__card__comment.${data[0].id}`).text(data[0].comment);
+    }, pId, 1, 0);
+    $('.board__editComment').hide(500);
+    $('.board__addComment').show(500);
+    $('.board__editComment__form__info').text('');
+    $('.board__editComment__form__comment').val('');
+    $('.board__editComment__form__userId').val('');
+    $('.board__editComment__form__postId').val('');
+    $(`.${pId}[name="comment"]`).val(newComment);
+  }, pId, userId, newComment);
+});
+
+$('.board__editComment__form__cancel').click(() => {
+  $('.board__editComment').hide(500);
+  $('.board__addComment').show(500);
+  $('.board__editComment__form__info').text('');
+  $('.board__editComment__form__comment').val('');
+  $('.board__editComment__form__userId').val('');
+  $('.board__editComment__form__postId').val('');
 });

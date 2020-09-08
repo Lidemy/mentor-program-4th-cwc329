@@ -95,7 +95,7 @@ input:not([type=submit]) {
   margin-bottom: 40px;
 }
 
-.board__addComment__form__comment {
+.board__addComment__form__comment, .board__editComment__form__comment {
   resize: none;
   background: black;
   border: none;
@@ -106,7 +106,7 @@ input:not([type=submit]) {
   padding: 0;
 }
 
-.board__addComment__form__comment:focus, input:focus, input:-webkit-autofill,
+.board__editComment__form__comment:focus, .board__addComment__form__comment:focus, input:focus, input:-webkit-autofill,
 input:-webkit-autofill:hover, 
 input:-webkit-autofill:focus,
 textarea:-webkit-autofill,
