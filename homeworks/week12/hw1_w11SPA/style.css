@@ -151,6 +151,7 @@ select:-webkit-autofill:focus {
 
 .board__bulletin__card__comment {
   overflow-wrap: break-word;
+  white-space: pre-line;
   min-height: 30px;
 }
 

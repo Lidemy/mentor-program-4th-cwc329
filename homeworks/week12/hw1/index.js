@@ -1,149 +1,106 @@
 /* eslint no-undef: 0 */
-/* eslint no-shadow: 0 */
 /* eslint no-restricted-syntax: 0 */
-user.checkLogStatus(pageInit);
+/* eslint no-restricted-globals: 0 */
+apiUrl = 'http://localhost:8080/cwc329/bulletin_V1_0_1/API/discussions.php';
+siteKey = 'test';
+let cursor = Infinity;
+let minCommentId = Infinity;
+const commentCardTemplate = `
+<div class="card" id="%id">
+  <div class="card-header">
+    <div class="row">
+      <div class="col-sm-5 col-md-6">
+        <h5 class="card-title">%nickname</h5>
+      </div>
+      <div class="col-sm-5 offset-sm-2 col-md-6 offset-md-0 align-self-end">
+        <h6 class="card-title text-muted text-right">%createdAt</h6>
+      </div>
+    </div>
+  </div>
+  <div class="card-body">
+    <p class="card-text" style="overflow-wrap:break-word;white-space: pre-line;">%comment</p>
+  </div>
+</div>`;
 
-$('.board__loadMoreBtn').click(() => {
-  loadMoreComments();
-});
+function escapeHtml(unsafe) {
+  return !unsafe ? unsafe : unsafe
+    .replace(/&/g, '&amp;')
+    .replace(/</g, '&lt;')
+    .replace(/>/g, '&gt;')
+    .replace(/"/g, '&quot;')
+    .replace(/'/g, '&#039;');
+}
 
-$('#loginBtn').click(() => {
-  $('.board__register').hide(500);
-  $('.board__login').toggle(500);
-  $('.login__form__username').focus();
-});
-
-$('#editNicknameBtn').click(() => {
-  $('.board__editNickname').toggle(500);
-  $('.board__editNickname__form__input').focus();
-});
-
-$('#registerBtn').click(() => {
-  $('.board__register').toggle(500);
-  $('.board__login').hide(500);
-  $('.register__form__groupNo').focus();
-});
-
-$('#logoutBtn').click(() => {
-  user.logout(user.checkLogStatus);
-});
-
-$('.board__login__form').submit((e) => {
-  e.preventDefault();
-  const username = $('.login__form__username').val();
-  const password = $('.login__form__password').val();
-  user.login(username, password, () => {
-    if (isLogin) {
-      $('.login__form__username').val('');
-      $('.login__form__password').val('');
-      user.checkLogStatus(pageInit);
+function addComment(comment, nickname, key, cb = null) {
+  $.post(
+    apiUrl,
+    {
+      comment,
+      nickname,
+      siteKey: key,
+    },
+  ).done((d) => {
+    ({ err } = d);
+    if (err) {
+      alert('invalid inputs');
     } else {
-      alert('wrong username or password');
+      cb(d.discussions);
     }
   });
-});
+}
 
-$('.register__form').submit((e) => {
-  e.preventDefault();
-  const username = $('.register__form__username').val();
-  const groupNo = $('.register__form__groupNo').val();
-  const nickname = $('.register__form__nickname').val();
-  const password = $('.register__form__password').val();
-  user.register(username, nickname, password, groupNo, (data) => {
-    if (data.includes('Duplicate')) {
-      if (data.includes('nickname')) {
-        alert('Duplicate nickname');
-      } else if (data.includes('username')) {
-        alert('Duplicate username');
-      }
-    } else if (data.includes('failed')) {
-      alert('Invalid inputs');
+function getComments(key, before, cb) {
+  let queryStr = `?siteKey=${key}`;
+  if (isFinite(before)) {
+    queryStr += `&before=${before}`;
+  }
+  $.ajax(apiUrl + queryStr)
+    .done((d) => {
+      ({ discussions, minId } = d);
+      minCommentId = minId;
+      cb(discussions);
+    });
+}
+
+function showComments(discussions) {
+  if (discussions.length === 0) {
+    return;
+  }
+  $('.comments__loadbtn').hide();
+  let temp = cursor;
+  for (const discussion of discussions) {
+    newCard = commentCardTemplate
+      .replace('%id', discussion.id)
+      .replace('%nickname', escapeHtml(discussion.nickname))
+      .replace('%createdAt', escapeHtml(discussion.created_at))
+      .replace('%comment', escapeHtml(discussion.comment));
+    if (discussion.id <= temp) {
+      temp = discussion.id;
+      $('.comments').append(newCard);
     } else {
-      $('.register__form__username').val('');
-      $('.register__form__groupNo').val('');
-      $('.register__form__nickname').val('');
-      $('.register__form__password').val('');
-      user.login(username, password, () => {
-        user.checkLogStatus(pageInit);
-      });
+      $('.comments').prepend(newCard);
+      newComment = $('#addCommentCotent').val('');
+      nickname = $('#addCommentNickname').val('');
     }
-  });
-});
-
-$('.board__editNickname__form').submit((e) => {
-  e.preventDefault();
-  const newNickname = $('.board__editNickname__form__input').val();
-  user.changeProfile(() => {
-    user.checkLogStatus(pageInit);
-    $('.board__editNickname__form__input').val('');
-  }, newNickname);
-});
-
-$('.board__addComment__form').submit((e) => {
-  e.preventDefault();
-  const newComment = $('.board__addComment__form__comment').val();
-  comment.post(() => {
-    comment.get((data) => {
-      showComments(data, 'prepend');
-      $('.board__addComment__form__comment').val('');
-      offset += 1;
-    }, null, 1, 0);
-  }, newComment, userId);
-});
-
-$('.board__bulletin').submit((e) => {
-  function getFormInputs(e) {
-    const { children } = e.target;
-    const result = {};
-    for (const input of children) {
-      const { name, defaultValue } = input;
-      result[name] = defaultValue;
-    }
-    return result;
+    $(`#${cursor}`).scrollTop();
+    cursor = temp;
   }
-  let inputs;
-  e.preventDefault();
-  if ($(e.target).hasClass('board__bulletin__card__deleteCommentform')) {
-    inputs = getFormInputs(e);
-    comment.delete(() => {
-      $(e.target.closest('.board__bulletin__card')).hide(500);
-    }, inputs.post_id);
-  } else if ($(e.target).hasClass('board__bulletin__card__editCommentform')) {
-    inputs = getFormInputs(e);
-    const commentInfo = $($(e.target).closest('.board__bulletin__card__top').children()[0]).text();
-    $('.board__editComment').show();
-    $('.board__addComment').hide(500);
-    $('.board__editComment__form__info').text(`${commentInfo.trim()} > Editing`);
-    $('.board__editComment__form__comment').val(inputs.comment.trim());
-    $('.board__editComment__form__userId').val(inputs.user_id);
-    $('.board__editComment__form__postId').val(inputs.post_id);
-    $('.board__editComment__form__comment').focus();
+  if (cursor > minCommentId) {
+    $('.comments__loadbtn').show();
   }
+}
+
+$(document).ready(() => {
+  getComments(siteKey, cursor, showComments);
 });
 
-$('.board__editComment__form').submit((e) => {
+$('.comments__loadbtn').click(() => {
+  getComments(siteKey, cursor, showComments);
+});
+
+$('.addCommentForm').submit((e) => {
   e.preventDefault();
-  const newComment = $('.board__editComment__form__comment').val();
-  const pId = $('.board__editComment__form__postId').val();
-  comment.edit(() => {
-    comment.get((data) => {
-      $(`.board__bulletin__card__comment.${data[0].id}`).text(data[0].comment);
-    }, pId, 1, 0);
-    $('.board__editComment').hide(500);
-    $('.board__addComment').show(500);
-    $('.board__editComment__form__info').text('');
-    $('.board__editComment__form__comment').val('');
-    $('.board__editComment__form__userId').val('');
-    $('.board__editComment__form__postId').val('');
-    $(`.${pId}[name="comment"]`).val(newComment);
-  }, pId, userId, newComment);
-});
-
-$('.board__editComment__form__cancel').click(() => {
-  $('.board__editComment').hide(500);
-  $('.board__addComment').show(500);
-  $('.board__editComment__form__info').text('');
-  $('.board__editComment__form__comment').val('');
-  $('.board__editComment__form__userId').val('');
-  $('.board__editComment__form__postId').val('');
+  const newComment = $('#addCommentCotent').val();
+  const nickname = $('#addCommentNickname').val();
+  addComment(newComment, nickname, siteKey, showComments);
 });
