@@ -1,7 +1,7 @@
 /* eslint no-undef: 0 */
 /* eslint no-restricted-syntax: 0 */
 /* eslint no-restricted-globals: 0 */
-const apiUrl = 'http://localhost/cwc329/toDoList_V1_0_0/API/todos.php';
+const apiUrl = 'http://mentor-program.co/mtr04group6/cwc329/todoList/API/todos.php';
 const $unfinished = $('.todos__unfinished');
 const $finished = $('.todos__finished');
 let isEditing = false;

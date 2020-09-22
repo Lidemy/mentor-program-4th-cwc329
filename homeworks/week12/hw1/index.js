@@ -1,7 +1,7 @@
 /* eslint no-undef: 0 */
 /* eslint no-restricted-syntax: 0 */
 /* eslint no-restricted-globals: 0 */
-apiUrl = 'http://localhost:8080/cwc329/bulletin_V1_0_1/API/discussions.php';
+apiUrl = 'http://mentor-program.co/mtr04group6/cwc329/bulletin/V1_0_1/API/discussions.php';
 siteKey = 'test';
 let cursor = Infinity;
 let minCommentId = Infinity;
@@ -63,10 +63,10 @@ function getComments(key, before, cb) {
 }
 
 function showComments(discussions) {
+  $('.comments__loadbtn').hide();
   if (discussions.length === 0) {
     return;
   }
-  $('.comments__loadbtn').hide();
   let temp = cursor;
   for (const discussion of discussions) {
     newCard = commentCardTemplate
