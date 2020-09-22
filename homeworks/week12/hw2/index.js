@@ -77,6 +77,19 @@ function escapeHtml(unsafe) {
     .replace(/'/g, '&#039;');
 }
 
+$('.filters').on('click', '.btn', (e) => {
+  if ($(e.target).hasClass('allBtn')) {
+    $('.todos__unfinished').show();
+    $('.todos__finished').show();
+  } else if ($(e.target).hasClass('unfinishedBtn')) {
+    $('.todos__unfinished').show();
+    $('.todos__finished').hide();
+  } else if ($(e.target).hasClass('finishedBtn')) {
+    $('.todos__unfinished').hide();
+    $('.todos__finished').show();
+  }
+});
+
 function showTodo(data) {
   todoList = JSON.parse(data[0].todo);
   ({ finished, unfinished } = todoList);
@@ -107,7 +120,6 @@ if (todoId) {
 } else {
   todoId = null;
 }
-
 
 $('.addTodoForm').submit((e) => {
   e.preventDefault();
@@ -167,11 +179,14 @@ $('.todos').on('click', '.changeBtn', (e) => {
   selectedCard.children('.row').show();
 });
 
+$('.todos').on('click', '.clearAllBtn', () => {
+  $('.todos__finished .list-group').empty();
+});
+
 $('.saveBtn').click(() => {
   if (isEditing) {
     alert('please finish your current editing');
   } else {
-    console.log($unfinished.find('ul').children());
     const todos = $unfinished.find('ul').children();
     const dones = $finished.find('ul').children();
     const finished = [];
@@ -194,7 +209,6 @@ $('.saveBtn').click(() => {
       },
     ).done((data) => {
       let msg = 'Todo-list saved.';
-      console.log(data);
       if (data[0].id) {
         todoId = data[0].id;
         msg += `

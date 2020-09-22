@@ -25,10 +25,15 @@
           </div>
         </div>
       </form>
+      <div class="btn-group mb-3 filters" role="group" aria-label="Basic example">
+        <button type="button" class="btn btn-primary allBtn">ALL</button>
+        <button type="button" class="btn btn-danger unfinishedBtn">UNFINISHED</button>
+        <button type="button" class="btn btn-success finishedBtn">FINISHED</button>
+      </div>
       <div class="todos">
         <div class="todos__unfinished mb-3">
           <div class="card">
-            <div class="card-header">
+            <div class="card-header bg-danger text-light">
               The Unfinished
             </div>
             <ul class="list-group list-group-flush">
@@ -37,8 +42,15 @@
         </div>
         <div class="todos__finished">
           <div class="card">
-            <div class="card-header">
-              The Finished
+            <div class="card-header bg-success text-light">
+              <div class="row">
+                <div class="col-10 mr-auto">
+                  The Finished
+                </div>
+                <div class="col-auto">
+                  <button type="button" class="btn btn-light btn-sm clearAllBtn">CLEAR ALL</button>
+                </div>
+              </div>
             </div>
             <ul class="list-group list-group-flush">
             </ul>
