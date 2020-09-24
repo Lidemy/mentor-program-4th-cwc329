@@ -115,19 +115,17 @@ export function init(option) {
     }
   }
 
-  $(document).ready(() => {
-    $(`.${bulletinContainer}`).append($(bulletinTemplate));
+  $(`.${bulletinContainer}`).append($(bulletinTemplate));
+  getComments(siteKey, cursor, showComments);
+
+  $('.comments__loadbtn').click(() => {
     getComments(siteKey, cursor, showComments);
+  });
 
-    $('.comments__loadbtn').click(() => {
-      getComments(siteKey, cursor, showComments);
-    });
-
-    $('.addCommentForm').submit((e) => {
-      e.preventDefault();
-      const newComment = $('#addCommentCotent').val();
-      const nickname = $('#addCommentNickname').val();
-      addComment(newComment, nickname, siteKey, showComments);
-    });
+  $('.addCommentForm').submit((e) => {
+    e.preventDefault();
+    const newComment = $('#addCommentCotent').val();
+    const nickname = $('#addCommentNickname').val();
+    addComment(newComment, nickname, siteKey, showComments);
   });
 }
