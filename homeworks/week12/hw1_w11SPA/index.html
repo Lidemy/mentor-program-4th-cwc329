@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Bulletin V1.2.0</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/normalize/8.0.1/normalize.css" integrity="sha512-oHDEc8Xed4hiW6CxD7qjbnI+B07vDdX7hEPTvn9pSZO1bcRqHp8mj9pyr+8RVC2GmtEfI2Bi9Ke9Ass0as+zpg==" crossorigin="anonymous" />
+  <link rel="stylesheet" href="./style.css" />
+</head>
+<body>
+<div class="warningLine">Warning: This is a demo website.<br>For your own sake, please do not use your real-life account and password!!!</div>
+  <main class="board">
+    <section class="board__sec1">
+      <h1 class="board__title"><a href="index.html">Bulletin</a></h1>
+        <div class="board__actions">
+          <a id="registerBtn" >&gt; Register</a>
+          <a id="loginBtn" >&nbsp;&gt; Log In</a>
+          <a id="adminBtn" class="hide" >&nbsp;&gt; Admin</a>
+          <a id="editNicknameBtn" class="hide" >&nbsp;&gt; Edit Nickname</a>
+          <a id="logoutBtn" class="hide" >&nbsp;&gt; Log Out</a>
+        </div>
+    </section>
+        <div class="board__pleaseLogin">
+        </div>
+        <div class="board__editNickname hide">
+          <form class="board__editNickname__form" method="POST" >
+            <div class="board__editNickname__form__">New Nickname &gt;</div>
+            <div><input type="text" class="board__editNickname__form__input" name="nickname" required/></div>
+            <div><input class="board__editNickname__form__submit" type="submit" value="&gt; return" /></div>
+          </form>
+        </div>
+        <div class="board__login hide">
+          <form class="board__login__form" method="POST">
+            <div>username: <input type="text" class="login__form__username" name="username" required /></div>
+            <div>password: <input type="password" class="login__form__password" name="password" required /></div>
+            <div><input class="login__form__submit" type="submit" value="&gt; return" /></div>
+          </form>
+        </div>
+        <div class="board__register hide">
+          <form class="register__form" method="POST">
+            <div>group&nbsp;&nbsp;&nbsp;: <input type="text" class="register__form__groupNo" name="groupNo" autofocus required />[1-6]</div>
+            <div>nickname: <input type="text" class="register__form__nickname" name="nickname" required /></div>
+            <div>username: <input type="text" class="register__form__username" name="username" required />[0-9a-zA-Z]+</div>
+            <div>password: <input type="password" class="register__form__password" name="password" required />[0-9a-zA-Z]+</div>
+            <div><input class="register__form__submit" type="submit" value="&gt; return" /></div>
+          </form>
+        </div>
+        <div class="board__addComment hide">
+          <form class="board__addComment__form" method="POST" action="add_comment.php">
+            <div class="board__addComment__form__info"></div>
+            <textarea rows="1" class="board__addComment__form__comment" name="comment" autofocus required></textarea>
+            <div><input class="board__addComment__form__submit" type="submit" value="&gt; return" /></div>
+          </form>
+        </div>
+        <div class="board__editComment hide">
+          <form class="board__editComment__form" method="POST">
+            <div class="board__editComment__form__info"></div>
+            <textarea rows="1" class="board__editComment__form__comment" name="comment" autofocus required></textarea>
+            <input class="board__editComment__form__userId" type="hidden" name="userId"/>
+            <input class="board__editComment__form__postId" type="hidden" name="postId"/>
+            <div><input class="board__editComment__form__submit" type="submit" value="&gt; return" /></div>
+          </form>
+          <a class="board__editComment__form__cancel">&gt; Cancel</a>
+        </div>
+    <secion class="board__sec2">
+      <div class="board__bulletin">
+      </div>
+    </section>
+    <h3 class="board__loadMoreBtn"><a >&gt; Load More</a></h3>
+  </main>
+  <script
+  src="https://code.jquery.com/jquery-3.5.1.min.js"
+  integrity="sha256-9/aliU8dGd2tb6OSsuzixeV4y/faTqgFtohetphbbj0="
+  crossorigin="anonymous"></script>
+  <script src="textareaExpand.js"></script>
+  <script src="app.js"></script>
+  <script src="index.js"></script>
+</body>
+</html>
