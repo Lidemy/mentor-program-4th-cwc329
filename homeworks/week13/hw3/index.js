@@ -1,31 +1,61 @@
-/* eslint no-restricted-syntax: 0 */
+/* eslint-disable no-restricted-syntax, no-shadow, no-undef, no-use-before-define */
 
-const request = new XMLHttpRequest();
-const ApiEndpoint = 'https://api.twitch.tv/kraken';
+
+const apiUrl = 'https://api.twitch.tv/kraken';
 const clientId = 'l8v669ong3mcmzuafjnny8y0tcj9vp';
 const displayTitle = document.querySelector('.display__title');
 const moreResultsBtn = document.querySelector('.display__moreResultsBtn');
 const results = document.querySelector('.display__results');
 const lis = document.querySelector('.navbar__topGames').children;
 const resultWidth = 440;
+const headers = new Headers({
+  'Client-ID': clientId,
+  Accept: 'application/vnd.twitchtv.v5+json',
+});
+
 let offset = 0;
 let lastSearchedText = '';
 
-function showTopFiveGames(arr, callback) {
-  const navbarTopGames = document.querySelector('.navbar__topGames').children;
-  for (let i = 0; i < arr.length; i += 1) {
-    navbarTopGames[i + 1].innerText = `${arr[i]}`;
+function twitchApi(options) {
+  const path = `/${options.path}`;
+  let queryString = '?';
+  for (const [key, value] of Object.entries(options.data)) {
+    queryString += `${key}=${value}&`;
   }
-  callback();
+  queryString = queryString.slice(0, this.length - 1);
+  const apiUrl = options.apiUrl + path + queryString;
+  const { headers } = options;
+  console.log('apiUrl', apiUrl);
+  return fetch(apiUrl, {
+    headers,
+  }).then(data => data.json());
 }
 
-function showStreamResult(streams) {
+$(document).ready(() => {
+  pageInit();
+});
+
+async function pageInit() {
+  await showTopFiveGames();
+  showStreamResult();
+}
+
+async function showTopFiveGames() {
+  const topFiveGames = await getTopFiveGames();
+  const arr = topFiveGames.top;
+  for (let i = 0; i < arr.length; i += 1) {
+    $(`#Game${i}`).text(arr[i].game.name);
+  }
+}
+
+async function showStreamResult(str) {
+  const streams = await getStreamResult(str);
   if (offset === 0) {
     results.innerHTML = '';
   }
   const w = resultWidth;
   const h = Math.floor(w / 16 * 9);
-  for (const stream of Object.values(streams)) {
+  for (const stream of Object.values(streams.streams)) {
     let previewImgUrl = stream.preview.template;
     previewImgUrl = `${previewImgUrl.slice(0, previewImgUrl.indexOf('{'))}${w}x${h}.jpg`;
     const templateHTML = `<img class="display__result__previewImg" src="${previewImgUrl}"/>
@@ -43,7 +73,7 @@ function showStreamResult(streams) {
     newResult.innerHTML = templateHTML;
     results.appendChild(newResult);
   }
-  if (streams.length < 20) {
+  if (streams.streams.length < 20) {
     moreResultsBtn.classList.add('hide');
   } else {
     moreResultsBtn.classList.remove('hide');
@@ -58,9 +88,24 @@ function showStreamResult(streams) {
   displayTitle.innerText = templateMessage;
 }
 
-function getStreamResult(str, callback = showStreamResult) {
+function getTopFiveGames() {
+  const option = {
+    apiUrl,
+    path: 'games/top',
+    headers,
+    data: {
+      limit: 5,
+    },
+  };
+  return twitchApi(option);
+}
+
+function getStreamResult(str) {
   lastSearchedText = str;
-  let queryString = '';
+  const data = {
+    offset,
+    limit: 20,
+  };
   if (str) {
     for (let i = 1; i < lis.length; i += 1) {
       if (str === lis[i].innerText) {
@@ -68,75 +113,16 @@ function getStreamResult(str, callback = showStreamResult) {
         break;
       }
     }
-    queryString = `&game=${str}`;
+    data.game = str;
   }
-  request.onload = () => {
-    try {
-      JSON.parse(request.response);
-    } catch (err) {
-      console.log(err);
-    }
-    const streamResult = JSON.parse(request.response);
-    const { streams } = streamResult;
-    callback(streams, str);
+  const option = {
+    apiUrl,
+    headers,
+    path: 'streams',
+    data,
   };
-  request.open('GET', `${ApiEndpoint}/streams?limit=20&offset=${offset * 20}${queryString}`);
-  request.setRequestHeader('Client-ID', clientId);
-  request.setRequestHeader('Accept', 'application/vnd.twitchtv.v5+json');
-  request.send();
+  return twitchApi(option);
 }
-
-function getTopFiveGames(callback) {
-  request.onload = () => {
-    const topFiveGames = [];
-    try {
-      JSON.parse(request.response);
-    } catch (err) {
-      console.log(err);
-    }
-    const gameData = JSON.parse(request.response).top;
-    for (let i = 0; i < gameData.length; i += 1) {
-      topFiveGames.push(gameData[i].game.name);
-    }
-    callback(topFiveGames, getStreamResult);
-  };
-  request.open('GET', `${ApiEndpoint}/games/top?limit=5`, true);
-  request.setRequestHeader('Client-ID', clientId);
-  request.setRequestHeader('Accept', 'application/vnd.twitchtv.v5+json');
-  request.send();
-}
-
-function getGameName(name, callback) {
-  const searchQuery = encodeURI(name);
-  request.onload = () => {
-    try {
-      JSON.parse(request.response);
-    } catch (err) {
-      console.log(err);
-    }
-    const searchResult = JSON.parse(request.response);
-    if (!searchResult.games) {
-      results.innerHTML = '';
-      moreResultsBtn.classList.add('hide');
-      displayTitle.innerText = `These are live streams of "${document.querySelector('.navbar__search__text').value}"`;
-      return;
-    }
-    callback(searchResult.games[0].name);
-  };
-  request.open('GET', `${ApiEndpoint}/search/games?query=${searchQuery}`, true);
-  request.setRequestHeader('Client-ID', clientId);
-  request.setRequestHeader('Accept', 'application/vnd.twitchtv.v5+json');
-  request.send();
-}
-
-document.querySelector('form').addEventListener('submit', (e) => {
-  offset = 0;
-  for (let i = 0; i < lis.length; i += 1) {
-    lis[i].classList.remove('active');
-  }
-  getGameName(document.querySelector('.navbar__search__text').value, getStreamResult);
-  e.preventDefault();
-});
 
 document.querySelector('.navbar__topGames').addEventListener('click', (e) => {
   offset = 0;
@@ -150,12 +136,10 @@ document.querySelector('.navbar__topGames').addEventListener('click', (e) => {
   } else {
     gameName = e.target.innerText;
   }
-  getStreamResult(gameName, showStreamResult);
+  showStreamResult(gameName);
 });
 
 document.querySelector('.display__moreResultsBtn').addEventListener('click', () => {
-  offset += 1;
-  getStreamResult(lastSearchedText, showStreamResult);
+  offset += 20;
+  showStreamResult(lastSearchedText);
 });
-
-getTopFiveGames(showTopFiveGames);
