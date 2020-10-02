@@ -11,3 +11,199 @@
 # 總結
 這次用兩種不同的方式試著架站，用虛擬主機的時候真的是放膽去用，因為就算虛擬主機被攻擊，我也沒有重要的個資與檔案放在上面。但是當用實體主機，我每個步驟都很小心，並且都會測試很多次，就怕一不小心就出大事了。
 
+
+# 實體主機部署
+
+## 作業系統
+這邊我選用 ubuntu server 20.04，原因就是看同學幾乎都用 ubuntu 而已，雖然鳥哥教學是用 Centos。安裝其實沒啥好說的，如果會安裝 windows 就會安裝。這邊我會建議如果不知道怎麼切割硬碟，可以考慮找一顆用壞不足為習的硬碟來使用，不管是要學怎麼切割，還是就按照預設調整，依照目前的用途應該都是可以的。這邊要先提醒，server 版的 OS 只有 CLI，如果對 CLI 操作不熟建議先多加練習，再來使用。  
+在安裝的時候也會需要設置使用者以及使用者名稱，這邊設定好之後要記好帳號密碼，因為之後幾乎都會使用這個帳號登入管理伺服器。  
+安裝好之後，會建議要先執行一次 update，因為使用的安裝檔可能不是最新的，即便是官網最新版，也還是有很多軟體需要更新。更新的語法如下:
+```
+sudo apt-get update // 列出更新資訊
+
+sudo apt-get upgrade // 安裝更新
+```
+兩個都執行就可以把目前電腦中安裝的服務都更新。
+更新搞定之後，就可以試著連上網路看看。我直接從我家的網路數據機接上網路線，很幸運地，我不用安裝其他驅動程式就可以使用網卡，獲得網路連線。  
+
+然後因為我看 Linux 預設的 bash 不太順眼，於是我就去找了如何設定成看起來比較順眼的 zsh 與主題。這邊個人私心推薦可以搜尋 `Chris Titus Tech`，他的 youtube 有如何設定安裝 zsh、powerlind10k 並且自定 linux terminal 介面，也有很多 Linux 以及其他作業系統的教學介紹影片，是我近期會點來看的技術影片。
+
+## ssh 與基礎設定
+接上網路之後，因為在做好基礎設定之後我不想要再在伺服器上接螢幕與鍵鼠，所以我先安裝 openssh-server，安裝指令如下：
+```
+sudo apt-get install openssh-server //
+```
+如果想要懶人設定，可以加上 -y，就會對將所有設定套用預設設定。  
+安裝好之後，還要做幾個重要的設定，就是防火牆還有設定固定 IP。  
+
+### 固定 IP
+因為我自己想經由常用的電腦使用 ssh 連線管理這台伺服器，再加上要設定防火牆，所以我對伺服器以及我的電腦都要設定內網的固定 IP。
+自己電腦因為用的是 GUI，如何設定 google 很快就可以找到了。
+伺服器設定固定 IP 比較複雜一些，首先，要先找出你用的網路卡，這邊我是使用 `ifconfig` 指令，執行完大概長這樣：
+```
+❯ ifconfig
+enp2s0: flags=4163<UP,BROADCAST,RUNNING,MULTICAST>  mtu 1500
+        inet XXX.xxx.xx.xxx  netmask 255.255.255.0  broadcast 12:34:56:78
+        inet6 aaaa:bbbb:cccc:dddd  prefixlen 64  scopeid 0x20<link>
+        ether 11:22:33:44:55  txqueuelen 1000  (Ethernet)
+        RX packets 164  bytes 44589 (44.5 KB)
+        RX errors 0  dropped 0  overruns 0  frame 0
+        TX packets 165  bytes 27681 (27.6 KB)
+        TX errors 0  dropped 0 overruns 0  carrier 0  collisions 0
+
+lo: flags=73<UP,LOOPBACK,RUNNING>  mtu 65536
+        inet 127.0.0.1  netmask 255.0.0.0
+        inet6 ::1  prefixlen 128  scopeid 0x10<host>
+        loop  txqueuelen 1000  (Local Loopback)
+        RX packets 93  bytes 7124 (7.1 KB)
+        RX errors 0  dropped 0  overruns 0  frame 0
+        TX packets 93  bytes 7124 (7.1 KB)
+        TX errors 0  dropped 0 overruns 0  carrier 0  collisions 0
+```
+
+因為我只有裝一張網卡，所以 `enp2s0` 就是我在使用的網卡，
+找到之後到 `/etc/network/interfaces`，我的檔案是空白的，所以我就直接把設定加入檔案中，
+```
+iface enp2s0 inet static
+address 我要的固定 IP
+netmask 255.255.255.0
+gateway 數據機的 IP
+```
+如果你有看到類似這樣的東西：
+```
+iface xxXXX inet DCHP
+把它註解掉 ->
+#iface xxXXX inet DCHP
+```
+這樣設定就完成了，重新開機之後可以再用`ifconfig`去查 IP，應該就可以看到是你設定好的 IP，而且就算網路斷掉重連也不會改變。
+接著就要設定防火牆了。
+
+### 防火牆設定
+我很偷懶，用 ufw 做簡單設定 port 的存取而已。
+我的電腦並沒有 ufw，所以我要先安裝，也是用 `apt-get` 安裝：
+```
+sudo apt-get install ufw
+```
+ssh 預設使用 port 22 進行連線，所以需要先設定放行常用電腦的 IP 從 port 22 連線：
+```
+sudo ufw allow from <電腦IP> to any port ssh
+```
+這就可以設定讓自己電腦用 ssh 連線到這部伺服器，
+接著開啟防火牆，
+```
+sudo ufw enable
+```
+啟動後可以用以下指令查詢開啟狀況：
+```
+> sudo ufw status
+Status: active
+
+To                         Action      From
+--                         ------      ----
+22/tcp                     ALLOW       <電腦IP>
+```
+如果看到這個就是已經開啟防火牆，並且可以看到下面有允許你的電腦用 ssh 連線進來。  
+
+### ssh 連線
+這個時候可以從自己的電腦用 ssh 連線過去看看：
+```
+ssh user@<伺服器IP>
+```
+這邊的 user 就是在安裝 ubuntu server 的時候設定的使用者，如果有設定密碼，那在執行指令後會要求輸入密碼，輸入密碼送出後應該就可以登入到系統了。
+確定可以用 ssh 之後，我就把螢幕和鍵鼠都拆下來，僅用 ssh 來遠端登入與操作系統。
+如果不想要每次登入都要輸入密碼，也可以用密鑰的方式登入，這個操作要在想要遠端登入的電腦操作：
+```
+ssh-keygen
+```
+這個指令可以建立一份私鑰與公鑰，接著再把公要傳送到伺服器儲存：
+```
+ssh-copy-id -i <公鑰檔案位置> user@<伺服器IP>
+```
+這樣就可以把公鑰傳送過去，之後只要用 `ssh user@<伺服器IP>` 就可以直接登入不用輸入密碼。
+
+## 進階防火牆設定
+
+當可以遠端連線，要記得不要馬上開始架網站，而是要先設定好伺服器的防火牆，僅開放一些服務與 port 讓外面可以連線，而不是整台主機門戶大開說歡迎光臨。這部分的設定可以參考鳥哥的[網站](http://linux.vbird.org/linux_server/index_old.php#part2)。  
+基本概念就是只開需要的 port，把其他不知道在做啥的端口，都把佔用端口的服務關掉，如果關掉某個服務突然系統或網路有問題，就去查看看那個服務在做啥，如果是必須的就重啟。  
+基本上，可以讓 80 port 讓所有人都可以連線，而其他的服務像是 ftp(21)、Mysql(3306)、ssh(22) 等都要用防火牆限制存取。都設定好才能比較好的保護主機。
+
+## lnmp 設定
+網路上有很多打包好的安裝包，下載之後執行 script 就可以把所有需要的東西安裝好，例如 [lnmp stack](https://github.com/oneinstack/lnmp)。  
+我第一次是用依照[網路教學](https://magiclen.org/lnamp/)操作這種安裝包，之後我把東西都移除，重新用各自安裝的方式再來一次。因為移除的過程可能有設定檔沒有移除的可能性，所以如果讀者在照著步驟做有任何問題，可能上網求救比較快。  
+lnmp 分別是 Linux、nginx、MySql、PHP，基本上把這幾個安裝起來就可以跑動態網頁。  
+後三個基本上都可以用 `apt-get` 安裝，就來一一安裝設定。
+基本步驟都如下：
+```
+1. sudo apt--get insatll <service>;
+//安裝訊息
+2. 查看版本或者查看服務狀態確定是否有安裝
+```
+
+### nginx
+先安裝：
+```
+sudo apt-get install nginx
+```
+跑完安裝訊息，如果成功安裝，可以下指令看他的狀態：
+```
+service nginx status
+```
+看到有 `active` 就代表有安裝好並且正在跑，
+這時候可以在瀏覽器直接輸入伺服器的內網 IP，就可以看到 nginx 預設的首頁。
+
+### MySql
+先安裝：
+```
+sudo apt-get install mysql-client;
+sudo apt-get install mysql-server;
+```
+安裝的時候應該會跑出一些設定 root 使用者的選項，不過我那個時候沒有注意看就跳過去了，結果後來需要用其他方法使用 root 來創立新的使用者，不用 root 去跑任何測試是比較好的習慣，畢竟如果不小心把測試用的檔案上傳了，如果中的 SQL injection 資料庫真的就任人宰割。
+把用戶端與伺服器端都安裝好，安裝伺服器端是為了方便我自己直接用電腦上的資料庫管理軟體連線，畢竟對 MySql 還沒有很熟，有的時候用 GUI 還是比較方便。安裝好一樣用 `service` 指令查狀態：
+```
+service mysql status
+```
+一樣看到 active 就是有在跑了，這個時候可以開始設定並且新增使用者。  
+先用 root 登入 MySql：
+```
+mysql -u root -p;
+```
+接著會要你輸入密碼，密碼正確後就會進到 mysql。
+接著就用 mysql 的新增使用者、資料庫等動作，這些指令如果不知道，可以上網查，或者也可以用 phpMyAdmin 之類的資料庫管理軟體，因為其實所有圖形介面操作最後都會轉換成 sql 語法，而通常在執行之後都會顯示指令與執行結果，運用這個方法就可以一個測試環境下先用資料庫管理軟體執行動作，接著複製 sql 語法之後稍作修改再貼到伺服器的 mysql 執行。  
+創立好新的使用者之後，就可以登出，然後再試著用新使用者登入，如果都沒有問題，那 MySql 的設定就暫時告一段落。
+
+### PHP
+除了安裝 PHP 之外，還要安裝一些套件讓網頁可以運行，這邊有安裝兩個套件：`php-mysql`、`php-fpm`。安裝指令大同小異：
+```
+sudo apt-get install php php-mysql php-fpm;
+```
+安裝好後可以用查看看 PHP 版本看有沒有正確安裝，
+```
+php -v
+```
+不過我突然噴錯：
+```
+symbol lookup error: php: undefined symbol: crypto_pwhash_scryptsalsa208sha256_memlimit_interactive
+```
+google 了一下，只要安裝 [libsodium](https://doc.libsodium.org/installation)就可以解決，就這樣解決了。
+接著，因為安裝 php 的時候，其實預設是在 apache 上跑，要重新設定 php 在 nginx 上跑。
+這邊要設定 ngnix 還有 php-fpm。找了很多網路上的資源，結果其實在 ngnix [官方文件](https://www.nginx.com/nginx-wiki/build/dirhtml/start/topics/examples/phpfcgi/)上就有方法了，至於 php-fpm 的設定可以看[這篇](https://blog.epoch.tw/2019/02/06/%E5%9C%A8-Ubuntu-%E4%B8%8A%E5%BB%BA%E7%AB%8B-LNMP-%E7%92%B0%E5%A2%83/)。  
+都設定好之後重啟兩個 ngnix 還有 php-fpm，然後用 nginx 官方的方法測試看看行不行。
+
+基本上到這邊已經可以把 php 檔丟上來部署了，不過可能會碰到 403 error。這很可能是因為使用者權限的問題，解決方法是把 `nginx.conf` 裡面設定的 user 加上網頁根目錄的權限，或者把 user 改成有權限存取的使用者。  
+
+### ftp
+這邊非必要，只是我想要用我自己熟悉的方式管理網站而已。
+這邊也弄了很久，我是用 vsftpd，下載安裝比較沒有問題，設定上主要是根目錄要重新設定，另外最好可以創建一個使用者專門使用 ftp，還要注意的是防火牆要 allow ftp 才能連線。大概是這樣。
+
+### 數據機設定、DDNS、No-ip
+如果是用家用網路，通常都是浮動 IP，也就是每次連線的 IP 不保證一樣。不過浮動 IP 也是會需要連線服務的，像是可能有人會想要在外面遠端登入自己的桌面，存取自己的東西。當然可以每次出門前都記住自己這次連線的 IP 是多少，不過要是遇到跳電或者訊號中斷重連，IP 就會變，就連不回去了。這個時候 DDNS(dymanic DNS)就非常好用，DDNS 可以讓使用者即時更新自己域名對應的 IP，並且能夠過這個伺服器解析域名並且連線。所以如果是用浮動 IP 架站就很需要使用這類 DDNS 服務。我是依照鳥哥的[教學](http://linux.vbird.org/linux_server/0270dynamic_dns.php)，再加上去查一些資料，一步一步註冊帳號、申請免費域名，接著再伺服器安裝 noip 的軟體，讓伺服器可以隨時更新域名的 IP。  
+而最麻煩的是，要如何將外面進來的連線引導到自己的伺服器。因為對外面的網路世界而言，我家的 IP 位址代表的其實是我家那台數據機，那要怎麼把 request 的封包引導到伺服器。我試過兩種方法：DMZ 與 port forwarding。  
+DMZ 的原理簡單來說就是把一台主機變成不在這個區網中，很像是把我的伺服器和其他主機放在不同的城牆裡，這樣有個好處就是即便伺服器被攻破，攻擊者想要入侵其他主機還是很困難，因為還要攻破一次防火牆。  
+而 port forwarding 比較像是轉信，數據機身為一台電腦，同樣有防火牆設定，而 port forwarding 就是讓數據機開放某的 port 並且把那的 port 的 request 轉到伺服器。這樣的話伺服器就不是整台暴露在外網，而是依舊有數據機的防火牆保護，壞處就是若是使用的伺服器軟體有安全漏洞，攻擊者只要進入伺服器運用漏洞，就很容易可以入侵相同區望內的其他主機。
+
+
+## 心得
+重新架一次發現寫安裝包的人真的很厲害，我只要在安裝的時候點好我要的選項，最後都幫我直接安裝好了，我只要無腦把東西丟上去就可以跑。  
+後來自己各自安裝，光是環境設置就搞死人了，先是找不到網頁根目錄，然後找到之後換成 ftp 不能連，連上之後又出現 404、403、500 各種錯誤。好幾次都我因為設定亂改到自己都不知道怎麼辦，就把改到他媽都不認得程式重新安裝，本來以為一個下午會好，沒想到做完已經半夜了。  
+這篇文章如果之後再練習一次的話應該會稍微改寫，畢竟後半段因為很多突發狀況不能好好記錄，就只能草草帶過。  
+這告訴我，有的時候還是不要
