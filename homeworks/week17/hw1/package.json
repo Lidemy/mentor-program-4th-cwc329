@@ -1,6 +1,7 @@
 {
   "name": "my-webpack-project",
   "version": "1.0.0",
+  "main": "app.js",
   "private": true,
   "scripts": {
     "start": "node ./bin/www",
