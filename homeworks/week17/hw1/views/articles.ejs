@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html>
+  <%- include('./templates/htmlHeader.ejs');  %>
+  <body>
+    <%- include('./templates/titleAndNavbar.ejs'); %>
+    <h4 class="col-md-8 offset-md-2">
+      <% if(path === '/articles' || path.includes('category')) { %>
+      <% categories.forEach( category => { %>
+        <a href="/articles/category/<%= category.dataValues.name %>" class="btn btn-outline-info <% if(path.includes(category.dataValues.name)){ %>active<% } %>"><%= category.dataValues.name %></a>
+      <% }) %>
+      <% } %> 
+    </h4>
+    <%  articles.forEach( article => { %>
+      <%- include('./templates/card.ejs', {article}); %>
+    <% }) %>
+  </body>
+</html>

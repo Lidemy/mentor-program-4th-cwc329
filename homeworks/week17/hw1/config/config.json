@@ -1,0 +1,23 @@
+{
+  "development": {
+    "username": "cwc329",
+    "password": "w1820329",
+    "database": "cwc329",
+    "host": "127.0.0.1",
+    "dialect": "mysql"
+  },
+  "test": {
+    "username": "cwc329",
+    "password": "w1820329",
+    "database": "cwc329",
+    "host": "127.0.0.1",
+    "dialect": "mysql"
+  },
+  "production": {
+    "username": "cwc329",
+    "password": "w1820329",
+    "database": "cwc329",
+    "host": "127.0.0.1",
+    "dialect": "mysql"
+  }
+}

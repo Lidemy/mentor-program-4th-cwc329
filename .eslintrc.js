@@ -20,6 +20,10 @@ module.exports = {
     'react',
   ],
   rules: {
-    "no-console": "off"
+    "no-console": "off",
+    "import/no-unresolved": "off",
+    "no-unused-vars": "off",
+    "consistent-return": "off",
+    
   },
 };

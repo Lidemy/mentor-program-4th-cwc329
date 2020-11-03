@@ -1,0 +1,60 @@
+<%
+  const homePath = '/';
+  const articlesPath = '/articles';
+  const categoryPath = '/articles/category';
+%>
+
+<div class="jumbotron jumbotron-fluid">
+  <div class="container">
+    <h1 class="display-4"><a class="" href="/">cwc329's Blog</a></h1>
+    <p class="lead">express.js demo blog</p>
+  </div>
+</div>
+<nav class="navbar navbar-expand-lg navbar-light bg-light col-md-8 offset-md-2">
+  <div class="collapse navbar-collapse" id="navbarSupportedContent">
+    <ul class="navbar-nav mr-auto">
+      <li class="nav-item <% if(path === homePath){ %>active<% } %>">
+        <a class="nav-link" href="/">Home <span class="sr-only">(current)</span></a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link <% if(path === articlesPath){ %>active<% } %>" href="/articles">Articles</a>
+      </li>
+      <li class="nav-item dropdown">
+        <a class="nav-link dropdown-toggle <% if(path.includes(categoryPath)){ %>active<% } %>" href="#" id="navbarCategory" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+          Categories
+        </a>
+        <div class="dropdown-menu" aria-labelledby="navbarCategory">
+          <% categories.forEach( category => { %> 
+            <a class="dropdown-item" href="/articles/category/<%= category.dataValues.name %>"><%= category.dataValues.name %></a>
+          <% }) %>
+        </div>
+      </li>
+    </ul>
+    <% if(userId) { %>
+      <span class="nav-link text-info">Hello, <%= nickname %></span>
+      <a class="nav-link" href="/user/logout">Log Out</a>
+      <a class="nav-link" href="#">Manage Categories</a>
+      <a class="nav-link" href="/articles/post">New Article</a>
+    <% } else { %>
+      <div class="btn-group">
+        <button id="navbarLoginForm" class="btn btn-secondary dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+          Login
+        </button>
+        <div class="dropdown-menu">
+          <form class="px-4 py-3" method="POST" action="/user/login">
+            <div class="form-group">
+              <label for="exampleDropdownFormUsername">Username</label>
+              <input name="username" type="text" class="form-control" placeholder="username">
+            </div>
+            <div class="form-group">
+              <label for="exampleDropdownFormPassword1">Password</label>
+              <input name="password" type="password" class="form-control" placeholder="Password">
+            </div>
+            <button type="submit" class="btn btn-primary">Login</button>
+          </form>
+          <div class="dropdown-divider"></div>
+        </div>
+      </div>
+    <% } %>
+  </div>
+</nav>
