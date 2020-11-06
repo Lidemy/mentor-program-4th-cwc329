@@ -24,6 +24,6 @@ module.exports = {
     "import/no-unresolved": "off",
     "no-unused-vars": "off",
     "consistent-return": "off",
-    
+    "no-undef": "off"
   },
 };

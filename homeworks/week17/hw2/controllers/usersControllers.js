@@ -1,5 +1,4 @@
 const bcrypt = require('bcrypt');
-
 const db = require('../models');
 
 const { User } = db;
@@ -11,6 +10,7 @@ const userControllers = {
     const { username, password } = req.body;
     if (!username || !password) {
       req.flash('errorMessage', 'wrong username or password');
+      // res.locals.errorMessage = req.flash('errorMessage');
       return res.redirect(req.originalUrl);
     }
     const user = await User.findOne(
@@ -23,7 +23,6 @@ const userControllers = {
     if (!user) {
       req.flash('errorMessage', 'user do not exist');
       res.locals.errorMessage = req.flash('errorMessge');
-      console.log('userControllers: ', res.locals);
       return next();
     }
     bcrypt.compare(password, user.dataValues.password, (err, result) => {

@@ -1,0 +1,29 @@
+<div class="card col-md-8 offset-md-2 mb-3 article">
+  <div class="card-header">
+    <div class="d-flex justify-content-between">
+      <div><%= article.dataValues.createdAt %></div>
+      <div>
+        <% if (userId) { %>
+        <form method="POST" action="/articles/delete" id="articleDeleteForm<%= article.dataValues.id %>">
+          <input type="hidden" name="id" value=<%= article.dataValues.id %>>
+          <input type="hidden" name="isDeleted" value="1">
+        </form>
+        <a href="/articles/post/<%= article.dataValues.id %>" class="btn btn-dark">Edit</a>
+        <a onclick="document.querySelector('#articleDeleteForm<%= article.dataValues.id %>').submit();" class="btn btn-danger">Delete</a>
+        <% } %>
+      </div>
+    </div>
+    <% article.Categories.forEach( category => { %>
+      <a href="/articles/category/<%= category.dataValues.name %>" class="btn btn-sm btn-outline-info"><%= category.dataValues.name %></a>
+    <% }) %>
+  </div>
+  <div class="card-body overflow-hidden ">
+    <h4 class="card-title"><%= article.dataValues.title %></h4>
+    <p class="card-text "> <%- article.dataValues.content %></p>
+  </div>
+  <% if(!path.includes('/articles/id')) { %>
+    <div class="mb-1">
+      <a href="/articles/id/<%= article.dataValues.id %>" class="btn btn-primary">Read More</a>
+    </div>
+  <% } %>
+</div>

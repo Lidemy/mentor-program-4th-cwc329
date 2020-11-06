@@ -1,9 +1,6 @@
-// const { Article, Category, CategoryTag, User } = require('../models/db');
 const db = require('../models');
 
-const { Category } = db;
-const { CategoryTag } = db;
-const { Article } = db;
+const { Article, Category, CategoryTag } = db;
 
 const categoryControllers = {
   setArticleCategory: async (req, res, next) => {

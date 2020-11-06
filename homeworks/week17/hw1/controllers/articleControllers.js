@@ -1,9 +1,6 @@
-// const { Article, Category, CategoryTag, User } = require('../models/db');
 const db = require('../models');
 
-const { Article } = db;
-const { Category } = db;
-const { CategoryTag } = db;
+const { Article, Category } = db;
 
 const articleControllers = {
   getOne: async (req, res, next) => {
