@@ -7,7 +7,7 @@ const { appendFileSync } = require('fs');
 const categoryControllers = require('./controllers/categoryControllers');
 
 const sess = {
-  secret: 'cwc329',
+  secret: process.env.secret,
   name: 'cwc329',
   resave: false,
   saveUninitialized: true,
