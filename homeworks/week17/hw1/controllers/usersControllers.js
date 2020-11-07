@@ -1,5 +1,5 @@
+// const { Article, Category, CategoryTag, User } = require('../models/db');
 const bcrypt = require('bcrypt');
-
 const db = require('../models');
 
 const { User } = db;

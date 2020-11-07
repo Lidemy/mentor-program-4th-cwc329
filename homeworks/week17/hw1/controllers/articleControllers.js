@@ -1,6 +1,6 @@
 const db = require('../models');
 
-const { Article, Category } = db;
+const { Article, Category, CategoryTag } = db;
 
 const articleControllers = {
   getOne: async (req, res, next) => {
@@ -86,13 +86,18 @@ const articleControllers = {
   },
 
   getArticlesCounts: async (req, res, next) => {
-    const ArticlesCounts = await Article.count(
+    const articlesCounts = await Article.count(
       {
         where: {
-          isDeleted: 1,
+          isDeleted: 0,
         },
       },
     );
+    console.log(articlesCounts);
+    res.locals.currentPage = Number(req.params.page) || 1;
+    res.locals.articlesCounts = articlesCounts;
+    res.locals.totalPage = Math.ceil(Number(articlesCounts) / 5);
+    next();
   },
 };
 

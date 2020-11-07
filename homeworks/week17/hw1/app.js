@@ -18,7 +18,7 @@ const articlesRouter = require('./routes/articles');
 const userRouter = require('./routes/user');
 
 const app = express();
-const port = 3001;
+const port = process.env.portBlog || 3001;
 
 // view engine setup
 
@@ -32,6 +32,7 @@ const init = (req, res, next) => {
   res.locals.userId = req.session.userId;
   res.locals.nickname = req.session.nickname;
   res.locals.path = req.path;
+  res.locals.totalPage = 0;
   next();
 };
 

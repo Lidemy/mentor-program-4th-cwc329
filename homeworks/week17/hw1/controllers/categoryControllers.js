@@ -1,3 +1,4 @@
+// const { Article, Category, CategoryTag, User } = require('../models/db');
 const db = require('../models');
 
 const { Article, Category, CategoryTag } = db;

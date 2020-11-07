@@ -5,7 +5,7 @@ const articleControllers = require('../controllers/articleControllers');
 const categoryControllers = require('../controllers/categoryControllers');
 const userControllers = require('../controllers/usersControllers');
 
-router.get('/', articleControllers.getArticles, (req, res, next) => {
+router.get('/', articleControllers.getArticlesCounts, articleControllers.getArticles, (req, res, next) => {
   res.render('articles', req.app.locals.viewsVariables);
 });
 
@@ -17,7 +17,7 @@ router.get('/id/:id', articleControllers.getOne, (req, res, next) => {
   res.render('articles', req.app.locals.viewsVariables);
 });
 
-router.get('/page/:page', articleControllers.getArticles, (req, res, next) => {
+router.get('/page/:page', articleControllers.getArticlesCounts, articleControllers.getArticles, (req, res, next) => {
   res.render('articles', req.app.locals.viewsVariables);
 });
 
@@ -28,7 +28,6 @@ router.get('/post', userControllers.checkPermission, (req, res, next) => {
 
 router.get('/post/:id', userControllers.checkPermission, articleControllers.getOne, (req, res, next) => {
   const viewsVariables = Object.assign(req.app.locals.viewsVariables, { isEditing: true });
-  console.log(res.locals.articles[0]);
   res.render('post', viewsVariables);
 });
 

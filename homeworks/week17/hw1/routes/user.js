@@ -1,11 +1,9 @@
 const express = require('express');
-const session = require('express-session');
 
 const router = express.Router();
 const userControllers = require('../controllers/usersControllers');
 
 router.post('/login', userControllers.login, (req, res, next) => {
-  console.log(res.locals);
   res.redirect('back');
 });
 
