@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html>
+  <%- include('./templates/htmlHeader.ejs');  %>  
+  <body>
+    <%- include('./templates/titleAndNavbar.ejs'); %>
+    <div class="d-flex flex-column align-items-center justify-content-center">
+      <form class="form-inline" method="POST" action="/prizes/add">
+        <label class="sr-only" for="prize">Name</label>
+        <input name="prize" type="text" class="form-control mb-2 mr-sm-2" id="prize" placeholder="ex: 特別獎">
+      
+        <label class="sr-only" for="description"></label>
+        <input name="description" type="text" class="form-control mb-2 mr-sm-2" id="description" placeholder="ex: 的盧一匹">
+      
+        <label class="sr-only" for="image">Name</label>
+        <input name="image" type="text" class="form-control mb-2 mr-sm-2" id="image" placeholder="ex: https://sss.ddd/ja.jpg">
+
+        <label class="sr-only" for="rate">Name</label>
+        <input name="rate" type="text" class="form-control mb-2 mr-sm-2" id="rate" placeholder="ex: 0.005">
+      
+        <button type="submit" class="btn btn-primary mb-2 add__btn">新增</button>
+      </form>
+    </div>
+    <div class="d-flex flex-column align-items-center justify-content-center">
+      <p class="text-danger"><%= errorMessage %><p>
+    <% prizes.forEach( e => { %>
+      <% const prize = e.dataValues; %>
+      <div>
+        <form class="form-inline d-inline-block" method="POST" action="/prizes/edit/<%= prize.id %>">
+          <label class="sr-only" for="prize<%= prize.id %>">Name</label>
+          <input name="prize" type="text" class="form-control mb-2 mr-sm-2" id="prize<%= prize.id %>" value="<%= prize.prize %>">
+        
+          <label class="sr-only" for="description<%= prize.id %>"></label>
+          <input name="description" type="text" class="form-control mb-2 mr-sm-2" id="description<%= prize.id %>" value="<%= prize.description %>">
+        
+          <label class="sr-only" for="image<%= prize.id %>">Name</label>
+          <input name="image" type="text" class="form-control mb-2 mr-sm-2" id="image<%= prize.id %>" value="<%= prize.image %>">
+
+          <label class="sr-only" for="rate<%= prize.id %>">Name</label>
+          <input name="rate" type="text" class="form-control mb-2 mr-sm-2" id="rate<%= prize.id %>" value="<%= prize.rate %>">
+        
+          <button type="submit" class="btn btn-primary mb-2 mr-sm-2 edit__btn">修改</button>
+        </form>
+        <a class="btn btn-danger mb-2 mr-sm-2 delete__btn" href="/prizes/delete/<%= prize.id %>">刪除</a>
+      </div>
+    <% }) %>
+    </div>
+  </body>
+</html>

@@ -1,0 +1,10 @@
+<!DOCTYPE html>
+<html>
+  <%- include('./templates/htmlHeader.ejs');  %>  
+  <body>
+    <%- include('./templates/titleAndNavbar.ejs'); %>
+    <%  articles.forEach( article => { %>
+      <%- include('./templates/card.ejs', {article}); %>
+    <% }) %>
+  </body>
+</html>
