@@ -1,5 +1,4 @@
-import { useContext } from 'react';
-import styled, { css } from 'styled-components';
+import styled from 'styled-components';
 
 const TodoCard = styled.div`
   max-width: 500px;
